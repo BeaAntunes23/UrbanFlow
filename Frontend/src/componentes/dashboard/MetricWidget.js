@@ -45,7 +45,7 @@ const toCsv = (rows) => {
   return lines.join('\n');
 };
 
-export const MetricsWidget = ({ metrics, comparison, config, sidebar = false }) => {
+export const MetricsWidget = ({ metrics, comparison, config, sidebar = false, onOpenFigures }) => {
   const postWithFallback = async (endpoint, body, options = {}) => {
     try {
       return await axios.post(`${API}${endpoint}`, body, { timeout: 8000, ...options });
@@ -187,7 +187,7 @@ export const MetricsWidget = ({ metrics, comparison, config, sidebar = false }) 
 
   const containerStyle = sidebar
     ? {
-        width: 320,
+        width: 300,
         height: '100%',
         boxSizing: 'border-box',
         borderLeft: '1px solid #27272a',
@@ -223,6 +223,23 @@ export const MetricsWidget = ({ metrics, comparison, config, sidebar = false }) 
           </div>
         </div>
       ))}
+
+      {sidebar && typeof onOpenFigures === 'function' && (
+        <button
+          onClick={onOpenFigures}
+          style={{
+            borderRadius: 6,
+            border: '1px solid #52525b',
+            background: 'transparent',
+            color: '#fafafa',
+            padding: '8px 10px',
+            cursor: 'pointer',
+            width: '100%',
+          }}
+        >
+          Ver gráficos
+        </button>
+      )}
 
       <div style={{ ...cardStyle, display: 'flex', gap: 8, alignItems: 'center' }}>
         <button

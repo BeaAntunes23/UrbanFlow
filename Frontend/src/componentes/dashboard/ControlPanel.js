@@ -191,7 +191,7 @@ export const ControlPanel = ({ config, setConfig, engineRef, activeRules, setAct
     <aside
       data-testid="control-panel"
       style={{
-        width: 330,
+        width: 300,
         borderRight: '1px solid #27272a',
         background: '#0c0c0f',
         color: '#f4f4f5',
