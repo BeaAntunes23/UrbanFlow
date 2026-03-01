@@ -163,6 +163,26 @@ export const MetricsWidget = ({ metrics, comparison, config }) => {
       value: `${metrics.collisionAvoided ?? 0}`,
       comparisonValue: comparison ? `${comparison.collisionAvoided ?? 0}` : '-',
     },
+    {
+      title: 'Espera Ligeiros',
+      value: `${metrics.lightAvgWaitTime ?? 0}s`,
+      comparisonValue: comparison ? `${comparison.lightAvgWaitTime ?? 0}s` : '-',
+    },
+    {
+      title: 'Espera Pesados',
+      value: `${metrics.heavyAvgWaitTime ?? 0}s`,
+      comparisonValue: comparison ? `${comparison.heavyAvgWaitTime ?? 0}s` : '-',
+    },
+    {
+      title: 'Concluídos Ligeiros',
+      value: `${metrics.lightVehiclesCompleted ?? 0}`,
+      comparisonValue: comparison ? `${comparison.lightVehiclesCompleted ?? 0}` : '-',
+    },
+    {
+      title: 'Concluídos Pesados',
+      value: `${metrics.heavyVehiclesCompleted ?? 0}`,
+      comparisonValue: comparison ? `${comparison.heavyVehiclesCompleted ?? 0}` : '-',
+    },
   ];
 
   return (

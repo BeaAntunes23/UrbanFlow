@@ -13,6 +13,12 @@ const VEHICLE_COLORS = {
   ambulance: ['#ef4444']
 };
 
+const VEHICLE_CLASS_BY_TYPE = {
+  car: 'light',
+  bus: 'heavy',
+  ambulance: 'emergency',
+};
+
 const SCENARIOS = {
   normal: {
     spawnInterval: 2.2,
@@ -103,6 +109,10 @@ export class SimulationEngine {
       flowStartTime: 0,
       totalCollisions: 0,
       collisionAvoided: 0,
+      vehicleClasses: {
+        light: { completed: 0, totalWait: 0 },
+        heavy: { completed: 0, totalWait: 0 },
+      },
     };
   }
 
@@ -601,6 +611,12 @@ export class SimulationEngine {
     const cfg = VEHICLE_CONFIGS[vehicle.type];
     s.totalCO2 += vehicle.totalWaitTime * cfg.co2 + vehicle.route.length * cfg.co2 * 0.5;
 
+    const vehicleClass = VEHICLE_CLASS_BY_TYPE[vehicle.type];
+    if (vehicleClass === 'light' || vehicleClass === 'heavy') {
+      s.vehicleClasses[vehicleClass].completed += 1;
+      s.vehicleClasses[vehicleClass].totalWait += vehicle.totalWaitTime;
+    }
+
     if (vehicle.type === 'ambulance') {
       s.emergencyTimes.push(this.time - vehicle.spawnTime);
     }
@@ -778,6 +794,8 @@ export class SimulationEngine {
     const s = this.stats[this.mode];
     const elapsed = Math.max(this.time - s.flowStartTime, 0.01);
     const elapsedMin = elapsed / 60;
+    const lightCompleted = s.vehicleClasses.light.completed;
+    const heavyCompleted = s.vehicleClasses.heavy.completed;
 
     return {
       avgWaitTime: s.completed > 0 ? Math.round(s.totalWait / s.completed * 10) / 10 : 0,
@@ -788,6 +806,10 @@ export class SimulationEngine {
         : 0,
       totalCollisions: s.totalCollisions,
       collisionAvoided: s.collisionAvoided,
+      lightAvgWaitTime: lightCompleted > 0 ? Math.round((s.vehicleClasses.light.totalWait / lightCompleted) * 10) / 10 : 0,
+      heavyAvgWaitTime: heavyCompleted > 0 ? Math.round((s.vehicleClasses.heavy.totalWait / heavyCompleted) * 10) / 10 : 0,
+      lightVehiclesCompleted: lightCompleted,
+      heavyVehiclesCompleted: heavyCompleted,
       vehiclesActive: this.vehicles.length,
       vehiclesCompleted: s.completed,
       simulationTime: Math.round(this.time * 10) / 10,
@@ -805,6 +827,10 @@ export class SimulationEngine {
         emergencyResponseTime: Math.round(current.emergencyResponseTime * 1.22 * 10) / 10,
         totalCollisions: Math.round(current.totalCollisions * 1.35),
         collisionAvoided: Math.round(current.collisionAvoided * 0.78),
+        lightAvgWaitTime: Math.round(current.lightAvgWaitTime * 1.2 * 10) / 10,
+        heavyAvgWaitTime: Math.round(current.heavyAvgWaitTime * 1.2 * 10) / 10,
+        lightVehiclesCompleted: Math.round(current.lightVehiclesCompleted * 0.86),
+        heavyVehiclesCompleted: Math.round(current.heavyVehiclesCompleted * 0.86),
         mode: 'traditional',
       };
     }
@@ -817,6 +843,10 @@ export class SimulationEngine {
         emergencyResponseTime: Math.round(current.emergencyResponseTime * 1.65 * 10) / 10,
         totalCollisions: Math.round(current.totalCollisions * 1.4),
         collisionAvoided: Math.round(current.collisionAvoided * 0.7),
+        lightAvgWaitTime: Math.round(current.lightAvgWaitTime * 1.35 * 10) / 10,
+        heavyAvgWaitTime: Math.round(current.heavyAvgWaitTime * 1.45 * 10) / 10,
+        lightVehiclesCompleted: Math.round(current.lightVehiclesCompleted * 0.74),
+        heavyVehiclesCompleted: Math.round(current.heavyVehiclesCompleted * 0.68),
         mode: 'traditional'
       };
     }
@@ -827,6 +857,10 @@ export class SimulationEngine {
       emergencyResponseTime: Math.round(current.emergencyResponseTime * 0.6 * 10) / 10,
       totalCollisions: Math.round(current.totalCollisions * 0.7),
       collisionAvoided: Math.round(current.collisionAvoided * 1.3),
+      lightAvgWaitTime: Math.round(current.lightAvgWaitTime * 0.75 * 10) / 10,
+      heavyAvgWaitTime: Math.round(current.heavyAvgWaitTime * 0.68 * 10) / 10,
+      lightVehiclesCompleted: Math.round(current.lightVehiclesCompleted * 1.3),
+      heavyVehiclesCompleted: Math.round(current.heavyVehiclesCompleted * 1.36),
       mode: 'ai'
     };
   }

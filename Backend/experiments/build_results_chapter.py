@@ -12,9 +12,20 @@ METRIC_NAMES = {
     "emergency_response_time": "tempo de resposta de emergência",
     "total_collisions": "colisões totais",
     "collision_avoided": "colisões evitadas",
+    "light_avg_wait_time": "tempo médio de espera (ligeiros)",
+    "heavy_avg_wait_time": "tempo médio de espera (pesados)",
+    "light_completed": "veículos ligeiros concluídos",
+    "heavy_completed": "veículos pesados concluídos",
 }
 
-LOWER_IS_BETTER = {"avg_wait_time", "co2_emissions", "emergency_response_time", "total_collisions"}
+LOWER_IS_BETTER = {
+    "avg_wait_time",
+    "co2_emissions",
+    "emergency_response_time",
+    "total_collisions",
+    "light_avg_wait_time",
+    "heavy_avg_wait_time",
+}
 
 
 def interpretation(metric: str, improvement: float) -> str:
@@ -45,6 +56,8 @@ def build_chapter(comparison_df: pd.DataFrame, source_csv: Path) -> str:
     lines.append("- tempo de resposta de emergência.")
     lines.append("- colisões totais;")
     lines.append("- colisões evitadas.")
+    lines.append("- tempo médio de espera por classe (ligeiros e pesados);")
+    lines.append("- volume concluído por classe (ligeiros e pesados).")
     lines.append("")
     lines.append("Para a inferência estatística foram usados:")
     lines.append("- intervalos de confiança (95%);")

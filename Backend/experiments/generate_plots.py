@@ -14,6 +14,10 @@ METRIC_LABELS = {
     "emergency_response_time": "Tempo de resposta emergência (s)",
     "total_collisions": "Colisões totais (contagem)",
     "collision_avoided": "Colisões evitadas (contagem)",
+    "light_avg_wait_time": "Espera média — ligeiros (s)",
+    "heavy_avg_wait_time": "Espera média — pesados (s)",
+    "light_completed": "Ligeiros concluídos (contagem)",
+    "heavy_completed": "Pesados concluídos (contagem)",
 }
 
 PLOT_METRICS = list(METRIC_LABELS.keys())

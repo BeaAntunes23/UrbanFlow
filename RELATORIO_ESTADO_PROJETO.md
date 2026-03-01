@@ -22,9 +22,9 @@ Foi implementado um motor de simulação (`SimulationEngine`) com:
 - Interseções com semáforos e fases NS/EW;
 - Modos de controlo: `ai` e `traditional`;
 - Cenários: normal, hora de ponta, acidente, emergência;
-- Geração dinâmica de veículos (carro, autocarro, ambulância);
+- Geração dinâmica de veículos com classes explícitas (**ligeiros** = `car`, **pesados** = `bus`, emergência = `ambulance`);
 - Regras de prioridade (incluindo emergência);
-- Métricas em tempo real: tempo médio de espera, fluxo, emissões CO2, tempo de resposta de emergência, ativos/concluídos;
+- Métricas em tempo real globais e por classe (incluindo espera e concluídos de ligeiros/pesados);
 - Métrica comparativa IA vs tradicional.
 
 ### 2.2 Visualização da Simulação (Canvas)
