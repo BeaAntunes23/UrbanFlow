@@ -71,6 +71,45 @@ Para a inferência estatística foram usados:
 - Na métrica **veículos ligeiros concluídos**, o modo IA apresentou média 15.200 (Tradicional: 7.600), com diferença IA-Tradicional de 7.600 (CI95: [4.600, 10.400]), correspondendo a aumento de 100.00%; p=0.0647 (análise emparelhada (n pares=5)).
 - Na métrica **veículos pesados concluídos**, o modo IA apresentou média 0.800 (Tradicional: 0.400), com diferença IA-Tradicional de 0.400 (CI95: [0.000, 0.800]), correspondendo a aumento de 100.00%; p=0.5134 (análise emparelhada (n pares=5)).
 
+## Integração de RL na Comparação Final
+
+Além da comparação principal IA vs Tradicional, foi incluída uma avaliação adicional com o agente **RL (Q-Learning)** para posicionar o seu desempenho relativo no mesmo conjunto de cenários.
+
+Configuração da avaliação RL:
+- repetições por cenário/modo: 3;
+- duração por corrida: 90s; dt=0.2;
+- dimensão da grelha: 4x4.
+
+### Resultados RL por Cenário
+
+#### accident
+- Espera média: RL=19.567s, IA=6.067s, Tradicional=18.333s.
+- Fluxo médio: RL=1.333 veíc/min, IA=6.233 veíc/min, Tradicional=1.300 veíc/min.
+- Colisões totais: RL=18.333, IA=16.000, Tradicional=19.000.
+- Melhor modo por métrica: tempo médio de espera: AI (6.067); taxa de fluxo: AI (6.233); emissões de CO2: AI (34.423); tempo de resposta de emergência: TRADITIONAL (0.000); colisões totais: AI (16.000).
+
+#### emergency
+- Espera média: RL=18.400s, IA=7.733s, Tradicional=17.333s.
+- Fluxo médio: RL=5.800 veíc/min, IA=8.433 veíc/min, Tradicional=3.533 veíc/min.
+- Colisões totais: RL=14.667, IA=13.667, Tradicional=16.000.
+- Melhor modo por métrica: tempo médio de espera: AI (7.733); taxa de fluxo: AI (8.433); emissões de CO2: TRADITIONAL (40.887); tempo de resposta de emergência: AI (1.767); colisões totais: AI (13.667).
+
+#### normal
+- Espera média: RL=11.333s, IA=11.267s, Tradicional=8.700s.
+- Fluxo médio: RL=5.333 veíc/min, IA=8.200 veíc/min, Tradicional=3.100 veíc/min.
+- Colisões totais: RL=12.333, IA=10.333, Tradicional=12.333.
+- Melhor modo por métrica: tempo médio de espera: TRADITIONAL (8.700); taxa de fluxo: AI (8.200); emissões de CO2: TRADITIONAL (27.460); tempo de resposta de emergência: RL (0.000); colisões totais: AI (10.333).
+
+#### rush_hour
+- Espera média: RL=4.367s, IA=5.367s, Tradicional=7.100s.
+- Fluxo médio: RL=9.567 veíc/min, IA=10.900 veíc/min, Tradicional=5.333 veíc/min.
+- Colisões totais: RL=62.667, IA=61.000, Tradicional=64.667.
+- Melhor modo por métrica: tempo médio de espera: RL (4.367); taxa de fluxo: AI (10.900); emissões de CO2: RL (105.727); tempo de resposta de emergência: RL (1.300); colisões totais: AI (61.000).
+
+### Nota Metodológica
+
+A comparação com RL neste capítulo é **descritiva** (médias por cenário/modo). Para conclusão inferencial forte, recomenda-se repetir a análise emparelhada e os testes estatísticos também para o modo RL no mesmo desenho experimental da comparação IA vs Tradicional.
+
 ## Síntese
 
 De forma global, os resultados permitem quantificar ganhos e limitações do controlo IA

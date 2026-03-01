@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 
 import pandas as pd
@@ -27,6 +28,14 @@ LOWER_IS_BETTER = {
     "heavy_avg_wait_time",
 }
 
+RL_METRICS = [
+    "avg_wait_time",
+    "flow_rate",
+    "co2_emissions",
+    "emergency_response_time",
+    "total_collisions",
+]
+
 
 def interpretation(metric: str, improvement: float) -> str:
     if metric in LOWER_IS_BETTER:
@@ -37,7 +46,124 @@ def interpretation(metric: str, improvement: float) -> str:
     return f"{direction} de {abs(improvement):.2f}%"
 
 
-def build_chapter(comparison_df: pd.DataFrame, source_csv: Path) -> str:
+def _mode_metric_value(summary_df: pd.DataFrame, scenario: str, mode: str, metric: str) -> float | None:
+    row = summary_df[(summary_df["scenario"] == scenario) & (summary_df["mode"] == mode)]
+    if row.empty:
+        return None
+
+    column = f"{metric}_mean"
+    if column not in row.columns:
+        return None
+
+    return float(row.iloc[0][column])
+
+
+def _best_mode(summary_df: pd.DataFrame, scenario: str, metric: str) -> tuple[str, float] | tuple[None, None]:
+    column = f"{metric}_mean"
+    scenario_df = summary_df[summary_df["scenario"] == scenario]
+    if scenario_df.empty or column not in scenario_df.columns:
+        return None, None
+
+    data = scenario_df[["mode", column]].dropna()
+    if data.empty:
+        return None, None
+
+    if metric in LOWER_IS_BETTER:
+        idx = data[column].idxmin()
+    else:
+        idx = data[column].idxmax()
+
+    best_row = data.loc[idx]
+    return str(best_row["mode"]), float(best_row[column])
+
+
+def build_rl_section(rl_summary: dict) -> list[str]:
+    lines: list[str] = []
+    summary_rows = rl_summary.get("summary", [])
+    if not summary_rows:
+        return lines
+
+    summary_df = pd.DataFrame(summary_rows)
+    required_columns = {"scenario", "mode"}
+    if not required_columns.issubset(set(summary_df.columns)):
+        return lines
+
+    lines.append("## Integração de RL na Comparação Final")
+    lines.append("")
+    lines.append(
+        "Além da comparação principal IA vs Tradicional, foi incluída uma avaliação adicional com "
+        "o agente **RL (Q-Learning)** para posicionar o seu desempenho relativo no mesmo conjunto de cenários."
+    )
+
+    cfg = rl_summary.get("config", {})
+    repetitions = cfg.get("repetitions", "?")
+    duration = cfg.get("duration", "?")
+    dt = cfg.get("dt", "?")
+    grid_size = cfg.get("gridSize", "?")
+
+    lines.append("")
+    lines.append("Configuração da avaliação RL:")
+    lines.append(f"- repetições por cenário/modo: {repetitions};")
+    lines.append(f"- duração por corrida: {duration}s; dt={dt};")
+    lines.append(f"- dimensão da grelha: {grid_size}x{grid_size}.")
+    lines.append("")
+    lines.append("### Resultados RL por Cenário")
+    lines.append("")
+
+    for scenario in sorted(summary_df["scenario"].unique()):
+        lines.append(f"#### {scenario}")
+
+        ai_wait = _mode_metric_value(summary_df, scenario, "ai", "avg_wait_time")
+        rl_wait = _mode_metric_value(summary_df, scenario, "rl", "avg_wait_time")
+        trad_wait = _mode_metric_value(summary_df, scenario, "traditional", "avg_wait_time")
+
+        ai_flow = _mode_metric_value(summary_df, scenario, "ai", "flow_rate")
+        rl_flow = _mode_metric_value(summary_df, scenario, "rl", "flow_rate")
+        trad_flow = _mode_metric_value(summary_df, scenario, "traditional", "flow_rate")
+
+        ai_coll = _mode_metric_value(summary_df, scenario, "ai", "total_collisions")
+        rl_coll = _mode_metric_value(summary_df, scenario, "rl", "total_collisions")
+        trad_coll = _mode_metric_value(summary_df, scenario, "traditional", "total_collisions")
+
+        if None not in (ai_wait, rl_wait, trad_wait):
+            lines.append(
+                f"- Espera média: RL={rl_wait:.3f}s, IA={ai_wait:.3f}s, Tradicional={trad_wait:.3f}s."
+            )
+        if None not in (ai_flow, rl_flow, trad_flow):
+            lines.append(
+                f"- Fluxo médio: RL={rl_flow:.3f} veíc/min, IA={ai_flow:.3f} veíc/min, Tradicional={trad_flow:.3f} veíc/min."
+            )
+        if None not in (ai_coll, rl_coll, trad_coll):
+            lines.append(
+                f"- Colisões totais: RL={rl_coll:.3f}, IA={ai_coll:.3f}, Tradicional={trad_coll:.3f}."
+            )
+
+        best_descriptions = []
+        for metric in RL_METRICS:
+            best_mode, best_value = _best_mode(summary_df, scenario, metric)
+            if best_mode is None:
+                continue
+            metric_name = METRIC_NAMES.get(metric, metric)
+            best_descriptions.append(f"{metric_name}: {best_mode.upper()} ({best_value:.3f})")
+
+        if best_descriptions:
+            lines.append("- Melhor modo por métrica: " + "; ".join(best_descriptions) + ".")
+
+        lines.append("")
+
+    lines.append("### Nota Metodológica")
+    lines.append("")
+    lines.append(
+        "A comparação com RL neste capítulo é **descritiva** (médias por cenário/modo). "
+        "Para conclusão inferencial forte, recomenda-se repetir a análise emparelhada e os testes "
+        "estatísticos também para o modo RL no mesmo desenho experimental da comparação IA vs Tradicional."
+    )
+    lines.append("")
+
+    return lines
+
+
+def build_chapter(comparison_df: pd.DataFrame, source_csv: Path, rl_summary: dict | None = None) -> str:
     lines = []
 
     lines.append("# Capítulo de Resultados Experimentais")
@@ -99,6 +225,9 @@ def build_chapter(comparison_df: pd.DataFrame, source_csv: Path) -> str:
 
         lines.append("")
 
+    if rl_summary:
+        lines.extend(build_rl_section(rl_summary))
+
     lines.append("## Síntese")
     lines.append("")
     lines.append("De forma global, os resultados permitem quantificar ganhos e limitações do controlo IA")
@@ -139,16 +268,36 @@ def main() -> None:
         default=str(Path(__file__).resolve().parent / "results" / "capitulo_resultados.md"),
         help="Ficheiro markdown de saída",
     )
+    parser.add_argument(
+        "--rl-summary",
+        type=str,
+        default=str(
+            Path(__file__).resolve().parents[2]
+            / "Frontend"
+            / "experiments"
+            / "results"
+            / "rl_evaluation_summary_latest.json"
+        ),
+        help="Resumo JSON da avaliação RL (opcional)",
+    )
     args = parser.parse_args()
 
     comparison_path = Path(args.comparison).resolve()
     source_csv = Path(args.source_csv).resolve()
     output = Path(args.output).resolve()
+    rl_summary_path = Path(args.rl_summary).resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
 
     comparison_df = pd.read_csv(comparison_path)
 
-    chapter_md = build_chapter(comparison_df, source_csv)
+    rl_summary = None
+    if rl_summary_path.exists():
+        try:
+            rl_summary = json.loads(rl_summary_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            rl_summary = None
+
+    chapter_md = build_chapter(comparison_df, source_csv, rl_summary=rl_summary)
     output.write_text(chapter_md, encoding="utf-8")
 
     print(f"[chapter] {output}")
