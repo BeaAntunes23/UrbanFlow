@@ -212,6 +212,67 @@ export const MetricsWidget = ({ metrics, comparison, config, sidebar = false, on
       data-testid="metrics-widget"
       style={containerStyle}
     >
+      {sidebar && (
+        <div
+          style={{
+            position: 'sticky',
+            top: 0,
+            zIndex: 2,
+            background: '#0c0c0f',
+            paddingBottom: 8,
+            display: 'grid',
+            gap: 8,
+          }}
+        >
+          {typeof onOpenFigures === 'function' && (
+            <button
+              onClick={onOpenFigures}
+              style={{
+                borderRadius: 6,
+                border: '1px solid #52525b',
+                background: 'transparent',
+                color: '#fafafa',
+                padding: '8px 10px',
+                cursor: 'pointer',
+                width: '100%',
+              }}
+            >
+              Ver gráficos
+            </button>
+          )}
+
+          <div style={{ ...cardStyle, display: 'flex', gap: 8, alignItems: 'center' }}>
+            <button
+              onClick={handleExport}
+              style={{
+                flex: 1,
+                borderRadius: 6,
+                border: '1px solid #52525b',
+                background: 'transparent',
+                color: '#fafafa',
+                padding: '7px 10px',
+                cursor: 'pointer',
+              }}
+            >
+              Exportar CSV
+            </button>
+            <button
+              onClick={handleSave}
+              style={{
+                borderRadius: 6,
+                border: 0,
+                background: '#16a34a',
+                color: '#fff',
+                padding: '7px 12px',
+                cursor: 'pointer',
+              }}
+            >
+              Guardar
+            </button>
+          </div>
+        </div>
+      )}
+
       {cards.map((item) => (
         <div key={item.title} style={cardStyle}>
           <div style={{ fontSize: 12, color: '#a1a1aa' }}>{item.title}</div>
@@ -224,52 +285,37 @@ export const MetricsWidget = ({ metrics, comparison, config, sidebar = false, on
         </div>
       ))}
 
-      {sidebar && typeof onOpenFigures === 'function' && (
-        <button
-          onClick={onOpenFigures}
-          style={{
-            borderRadius: 6,
-            border: '1px solid #52525b',
-            background: 'transparent',
-            color: '#fafafa',
-            padding: '8px 10px',
-            cursor: 'pointer',
-            width: '100%',
-          }}
-        >
-          Ver gráficos
-        </button>
+      {!sidebar && (
+        <div style={{ ...cardStyle, display: 'flex', gap: 8, alignItems: 'center' }}>
+          <button
+            onClick={handleExport}
+            style={{
+              flex: 1,
+              borderRadius: 6,
+              border: '1px solid #52525b',
+              background: 'transparent',
+              color: '#fafafa',
+              padding: '7px 10px',
+              cursor: 'pointer',
+            }}
+          >
+            Exportar CSV
+          </button>
+          <button
+            onClick={handleSave}
+            style={{
+              borderRadius: 6,
+              border: 0,
+              background: '#16a34a',
+              color: '#fff',
+              padding: '7px 12px',
+              cursor: 'pointer',
+            }}
+          >
+            Guardar
+          </button>
+        </div>
       )}
-
-      <div style={{ ...cardStyle, display: 'flex', gap: 8, alignItems: 'center' }}>
-        <button
-          onClick={handleExport}
-          style={{
-            flex: 1,
-            borderRadius: 6,
-            border: '1px solid #52525b',
-            background: 'transparent',
-            color: '#fafafa',
-            padding: '7px 10px',
-            cursor: 'pointer',
-          }}
-        >
-          Exportar CSV
-        </button>
-        <button
-          onClick={handleSave}
-          style={{
-            borderRadius: 6,
-            border: 0,
-            background: '#16a34a',
-            color: '#fff',
-            padding: '7px 12px',
-            cursor: 'pointer',
-          }}
-        >
-          Guardar
-        </button>
-      </div>
 
       <div style={{ ...cardStyle, fontSize: 12, display: 'flex', justifyContent: 'space-between' }}>
         <span>{metrics.vehiclesActive} ativos | {metrics.vehiclesCompleted} concluídos</span>
