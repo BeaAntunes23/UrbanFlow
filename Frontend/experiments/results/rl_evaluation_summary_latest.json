@@ -1,0 +1,157 @@
+{
+  "generated_at": "2026-03-01T12:06:52.817Z",
+  "config": {
+    "repetitions": 3,
+    "duration": 90,
+    "dt": 0.2,
+    "gridSize": 4,
+    "speed": 1,
+    "seedBase": 20260301
+  },
+  "summary": [
+    {
+      "scenario": "accident",
+      "mode": "ai",
+      "n": 3,
+      "avg_wait_time_mean": 6.0667,
+      "flow_rate_mean": 6.2333,
+      "co2_emissions_mean": 34.4233,
+      "emergency_response_time_mean": 2.4,
+      "total_collisions_mean": 16,
+      "collision_avoided_mean": 0,
+      "vehicles_completed_mean": 9.3333
+    },
+    {
+      "scenario": "accident",
+      "mode": "rl",
+      "n": 3,
+      "avg_wait_time_mean": 19.5667,
+      "flow_rate_mean": 1.3333,
+      "co2_emissions_mean": 35.7433,
+      "emergency_response_time_mean": 11.1333,
+      "total_collisions_mean": 18.3333,
+      "collision_avoided_mean": 0,
+      "vehicles_completed_mean": 2
+    },
+    {
+      "scenario": "accident",
+      "mode": "traditional",
+      "n": 3,
+      "avg_wait_time_mean": 18.3333,
+      "flow_rate_mean": 1.3,
+      "co2_emissions_mean": 34.6433,
+      "emergency_response_time_mean": 0,
+      "total_collisions_mean": 19,
+      "collision_avoided_mean": 0,
+      "vehicles_completed_mean": 2
+    },
+    {
+      "scenario": "emergency",
+      "mode": "ai",
+      "n": 3,
+      "avg_wait_time_mean": 7.7333,
+      "flow_rate_mean": 8.4333,
+      "co2_emissions_mean": 41.38,
+      "emergency_response_time_mean": 1.7667,
+      "total_collisions_mean": 13.6667,
+      "collision_avoided_mean": 0,
+      "vehicles_completed_mean": 12.6667
+    },
+    {
+      "scenario": "emergency",
+      "mode": "rl",
+      "n": 3,
+      "avg_wait_time_mean": 18.4,
+      "flow_rate_mean": 5.8,
+      "co2_emissions_mean": 49.5367,
+      "emergency_response_time_mean": 14.8,
+      "total_collisions_mean": 14.6667,
+      "collision_avoided_mean": 0,
+      "vehicles_completed_mean": 8.6667
+    },
+    {
+      "scenario": "emergency",
+      "mode": "traditional",
+      "n": 3,
+      "avg_wait_time_mean": 17.3333,
+      "flow_rate_mean": 3.5333,
+      "co2_emissions_mean": 40.8867,
+      "emergency_response_time_mean": 14.9667,
+      "total_collisions_mean": 16,
+      "collision_avoided_mean": 0,
+      "vehicles_completed_mean": 5.3333
+    },
+    {
+      "scenario": "normal",
+      "mode": "ai",
+      "n": 3,
+      "avg_wait_time_mean": 11.2667,
+      "flow_rate_mean": 8.2,
+      "co2_emissions_mean": 41.75,
+      "emergency_response_time_mean": 1.3,
+      "total_collisions_mean": 10.3333,
+      "collision_avoided_mean": 0,
+      "vehicles_completed_mean": 12.3333
+    },
+    {
+      "scenario": "normal",
+      "mode": "rl",
+      "n": 3,
+      "avg_wait_time_mean": 11.3333,
+      "flow_rate_mean": 5.3333,
+      "co2_emissions_mean": 32.3267,
+      "emergency_response_time_mean": 0,
+      "total_collisions_mean": 12.3333,
+      "collision_avoided_mean": 0,
+      "vehicles_completed_mean": 8
+    },
+    {
+      "scenario": "normal",
+      "mode": "traditional",
+      "n": 3,
+      "avg_wait_time_mean": 8.7,
+      "flow_rate_mean": 3.1,
+      "co2_emissions_mean": 27.46,
+      "emergency_response_time_mean": 5.5667,
+      "total_collisions_mean": 12.3333,
+      "collision_avoided_mean": 0,
+      "vehicles_completed_mean": 4.6667
+    },
+    {
+      "scenario": "rush_hour",
+      "mode": "ai",
+      "n": 3,
+      "avg_wait_time_mean": 5.3667,
+      "flow_rate_mean": 10.9,
+      "co2_emissions_mean": 109.5533,
+      "emergency_response_time_mean": 1.5667,
+      "total_collisions_mean": 61,
+      "collision_avoided_mean": 0,
+      "vehicles_completed_mean": 16.3333
+    },
+    {
+      "scenario": "rush_hour",
+      "mode": "rl",
+      "n": 3,
+      "avg_wait_time_mean": 4.3667,
+      "flow_rate_mean": 9.5667,
+      "co2_emissions_mean": 105.7267,
+      "emergency_response_time_mean": 1.3,
+      "total_collisions_mean": 62.6667,
+      "collision_avoided_mean": 0.3333,
+      "vehicles_completed_mean": 14.3333
+    },
+    {
+      "scenario": "rush_hour",
+      "mode": "traditional",
+      "n": 3,
+      "avg_wait_time_mean": 7.1,
+      "flow_rate_mean": 5.3333,
+      "co2_emissions_mean": 107.96,
+      "emergency_response_time_mean": 11.2667,
+      "total_collisions_mean": 64.6667,
+      "collision_avoided_mean": 0.3333,
+      "vehicles_completed_mean": 8
+    }
+  ]
+}

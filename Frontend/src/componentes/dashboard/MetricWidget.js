@@ -129,7 +129,8 @@ export const MetricsWidget = ({ metrics, comparison, config }) => {
     }
   };
 
-  const comparisonLabel = config.mode === 'ai' ? 'Tradicional' : 'IA';
+  const comparisonLabel = config.mode === 'traditional' ? 'IA/RL' : 'Tradicional';
+  const modeLabel = config.mode === 'ai' ? 'IA' : config.mode === 'rl' ? 'RL' : 'Trad.';
 
   const cards = [
     {
@@ -221,7 +222,7 @@ export const MetricsWidget = ({ metrics, comparison, config }) => {
 
       <div style={{ ...cardStyle, fontSize: 12, display: 'flex', justifyContent: 'space-between' }}>
         <span>{metrics.vehiclesActive} ativos | {metrics.vehiclesCompleted} concluídos</span>
-        <strong>{config.mode === 'ai' ? 'IA' : 'Trad.'}</strong>
+        <strong>{modeLabel}</strong>
       </div>
     </div>
   );

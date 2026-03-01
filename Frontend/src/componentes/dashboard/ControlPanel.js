@@ -282,6 +282,7 @@ export const ControlPanel = ({ config, setConfig, engineRef, activeRules, setAct
             style={fieldStyle}
           >
             <option value="ai">IA Otimizada</option>
+            <option value="rl">Reinforcement Learning (Q-Learning)</option>
             <option value="traditional">Ciclo Fixo Tradicional</option>
           </select>
         </label>

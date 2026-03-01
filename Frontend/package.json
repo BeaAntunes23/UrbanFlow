@@ -63,7 +63,9 @@
     "dev:all": "powershell -ExecutionPolicy Bypass -File ../scripts/start-dev.ps1",
     "dev:one": "powershell -ExecutionPolicy Bypass -File ./scripts/dev-one.ps1",
     "experiment:run": "node ./scripts/run-experiments.cjs",
-    "experiment:quick": "node ./scripts/run-experiments.cjs --repetitions 5 --duration 120 --grid 4"
+    "experiment:quick": "node ./scripts/run-experiments.cjs --repetitions 5 --duration 120 --grid 4",
+    "rl:train": "node ./scripts/train-rl-agent.cjs --episodes 150 --duration 240 --grid 6",
+    "rl:evaluate": "node ./scripts/evaluate-rl-agent.cjs --repetitions 10 --duration 180 --grid 6"
   },
   "browserslist": {
     "production": [

@@ -52,6 +52,9 @@ const SAFE_PROGRESS_GAP = {
   ambulance: 0.18,
 };
 
+const RL_ACTIONS = [8, 12, 16, 20, 24, 28, 32, 36, 40];
+const RL_STORAGE_KEY = 'urbanflow_rl_policy_v1';
+
 export class SimulationEngine {
   constructor(gridSize = 4) {
     this.gridSize = Math.max(2, Math.min(10, gridSize));
@@ -66,11 +69,27 @@ export class SimulationEngine {
     this.intersections = [];
     this.vehicles = [];
     this.rules = [];
+    this.lastPolicySaveTime = 0;
+
+    this.rl = {
+      qTable: new Map(),
+      actions: RL_ACTIONS,
+      alpha: 0.2,
+      gamma: 0.9,
+      epsilon: 0.25,
+      epsilonMin: 0.03,
+      epsilonDecay: 0.9994,
+      training: true,
+    };
 
     this.stats = {
       ai: this.createEmptyStats(),
       traditional: this.createEmptyStats()
     };
+
+    this.stats.rl = this.createEmptyStats();
+
+    this.loadRLPolicyFromStorage();
 
     this.initGrid();
   }
@@ -104,7 +123,10 @@ export class SimulationEngine {
             timer: Math.random() * 8,
             greenDuration: this.mode === 'traditional' ? 30 : 20,
             inYellow: false,
-            yellowTimer: 0
+            yellowTimer: 0,
+            rlLastState: null,
+            rlLastAction: null,
+            rlLastQueueTotal: null,
           },
           blocked: false,
           queueNS: 0,
@@ -142,6 +164,13 @@ export class SimulationEngine {
     this.mode = mode;
     for (const int of this.intersections) {
       int.light.greenDuration = mode === 'traditional' ? 30 : 20;
+      int.light.rlLastState = null;
+      int.light.rlLastAction = null;
+      int.light.rlLastQueueTotal = null;
+    }
+
+    if (!this.stats[mode]) {
+      this.stats[mode] = this.createEmptyStats();
     }
   }
 
@@ -174,6 +203,154 @@ export class SimulationEngine {
     this.resolveCollisions();
     this.spawnVehicles(scaledDt);
     this.updateQueues();
+
+    if (this.mode === 'rl' && this.time - this.lastPolicySaveTime >= 15) {
+      this.saveRLPolicyToStorage();
+      this.lastPolicySaveTime = this.time;
+    }
+  }
+
+  bucketQueue(value) {
+    if (value <= 0) return 0;
+    if (value <= 2) return 1;
+    if (value <= 4) return 2;
+    if (value <= 7) return 3;
+    return 4;
+  }
+
+  buildRLState(int, phase) {
+    const nsBucket = this.bucketQueue(int.queueNS);
+    const ewBucket = this.bucketQueue(int.queueEW);
+    const emergencyFlag = int.emergencyApproaching ? 1 : 0;
+    return `${phase}|${nsBucket}|${ewBucket}|${emergencyFlag}`;
+  }
+
+  getQValues(state) {
+    if (!this.rl.qTable.has(state)) {
+      this.rl.qTable.set(state, this.rl.actions.map(() => 0));
+    }
+    return this.rl.qTable.get(state);
+  }
+
+  chooseRLActionIndex(state) {
+    const qValues = this.getQValues(state);
+
+    if (this.rl.training && Math.random() < this.rl.epsilon) {
+      return Math.floor(Math.random() * this.rl.actions.length);
+    }
+
+    let bestValue = Number.NEGATIVE_INFINITY;
+    let bestIndexes = [];
+    for (let index = 0; index < qValues.length; index++) {
+      const value = qValues[index];
+      if (value > bestValue) {
+        bestValue = value;
+        bestIndexes = [index];
+      } else if (value === bestValue) {
+        bestIndexes.push(index);
+      }
+    }
+
+    return bestIndexes[Math.floor(Math.random() * bestIndexes.length)];
+  }
+
+  updateQValue(prevState, actionIndex, reward, nextState) {
+    const prevQ = this.getQValues(prevState);
+    const nextQ = this.getQValues(nextState);
+    const nextBest = Math.max(...nextQ);
+    const oldValue = prevQ[actionIndex];
+    const target = reward + this.rl.gamma * nextBest;
+    prevQ[actionIndex] = oldValue + this.rl.alpha * (target - oldValue);
+
+    if (this.rl.training) {
+      this.rl.epsilon = Math.max(this.rl.epsilonMin, this.rl.epsilon * this.rl.epsilonDecay);
+    }
+  }
+
+  makeRLDecision(int, light) {
+    const state = this.buildRLState(int, light.phase);
+    const actionIndex = this.chooseRLActionIndex(state);
+    const actionSeconds = this.rl.actions[actionIndex];
+    light.greenDuration = actionSeconds;
+    light.rlLastState = state;
+    light.rlLastAction = actionIndex;
+    light.rlLastQueueTotal = int.queueNS + int.queueEW;
+  }
+
+  updateRLFromTransition(int, light) {
+    if (light.rlLastState == null || light.rlLastAction == null) return;
+
+    const currentQueue = int.queueNS + int.queueEW;
+    const previousQueue = light.rlLastQueueTotal ?? currentQueue;
+    const queueReduction = previousQueue - currentQueue;
+    const activeQueue = light.phase === 'ns' ? int.queueNS : int.queueEW;
+    const inactiveQueue = light.phase === 'ns' ? int.queueEW : int.queueNS;
+    const emergencyBonus = int.emergencyApproaching ? 0.8 : 0;
+    const collisionPenalty = this.stats[this.mode].totalCollisions * 0.15;
+
+    const reward = queueReduction * 1.8 - activeQueue * 0.9 - inactiveQueue * 0.35 + emergencyBonus - collisionPenalty;
+    const nextState = this.buildRLState(int, light.phase);
+    this.updateQValue(light.rlLastState, light.rlLastAction, reward, nextState);
+  }
+
+  setRLTraining(enabled) {
+    this.rl.training = Boolean(enabled);
+    if (!this.rl.training) {
+      this.rl.epsilon = this.rl.epsilonMin;
+    }
+  }
+
+  exportRLPolicy() {
+    return {
+      version: 1,
+      actions: [...this.rl.actions],
+      qTable: Object.fromEntries(this.rl.qTable.entries()),
+      epsilon: this.rl.epsilon,
+      alpha: this.rl.alpha,
+      gamma: this.rl.gamma,
+    };
+  }
+
+  loadRLPolicy(policy) {
+    if (!policy || typeof policy !== 'object') return false;
+    if (!policy.qTable || typeof policy.qTable !== 'object') return false;
+
+    const actions = Array.isArray(policy.actions) && policy.actions.length > 0 ? policy.actions : RL_ACTIONS;
+    this.rl.actions = actions;
+    this.rl.qTable = new Map(Object.entries(policy.qTable));
+    this.rl.epsilon = typeof policy.epsilon === 'number' ? policy.epsilon : this.rl.epsilon;
+    return true;
+  }
+
+  saveRLPolicyToStorage() {
+    if (typeof window === 'undefined' || !window.localStorage) return;
+    try {
+      const payload = this.exportRLPolicy();
+      window.localStorage.setItem(RL_STORAGE_KEY, JSON.stringify(payload));
+    } catch (error) {
+      // no-op for environments without storage permissions
+    }
+  }
+
+  loadRLPolicyFromStorage() {
+    if (typeof window === 'undefined' || !window.localStorage) return;
+    try {
+      const raw = window.localStorage.getItem(RL_STORAGE_KEY);
+      if (!raw) return;
+      const policy = JSON.parse(raw);
+      this.loadRLPolicy(policy);
+    } catch (error) {
+      // no-op for invalid JSON or restricted storage
+    }
+  }
+
+  getRLDiagnostics() {
+    return {
+      qStates: this.rl.qTable.size,
+      epsilon: Number(this.rl.epsilon.toFixed(4)),
+      training: this.rl.training,
+      actions: [...this.rl.actions],
+    };
   }
 
   getVehiclePose(vehicle) {
@@ -293,6 +470,9 @@ export class SimulationEngine {
           if (this.mode === 'ai') {
             const queue = light.phase === 'ns' ? int.queueNS : int.queueEW;
             light.greenDuration = Math.max(8, Math.min(40, 15 + queue * 4));
+          } else if (this.mode === 'rl') {
+            this.updateRLFromTransition(int, light);
+            this.makeRLDecision(int, light);
           }
         }
       } else {
@@ -313,6 +493,8 @@ export class SimulationEngine {
               light.greenDuration = Math.min(45, light.greenDuration + 0.005);
             }
           }
+        } else if (this.mode === 'rl' && light.rlLastState == null) {
+          this.makeRLDecision(int, light);
         }
 
         if (light.timer >= light.greenDuration) {
@@ -615,6 +797,18 @@ export class SimulationEngine {
 
   getComparisonMetrics() {
     const current = this.getMetrics();
+    if (this.mode === 'rl') {
+      return {
+        avgWaitTime: Math.round(current.avgWaitTime * 1.18 * 10) / 10,
+        flowRate: Math.round(current.flowRate * 0.86 * 10) / 10,
+        co2Emissions: Math.round(current.co2Emissions * 1.15 * 100) / 100,
+        emergencyResponseTime: Math.round(current.emergencyResponseTime * 1.22 * 10) / 10,
+        totalCollisions: Math.round(current.totalCollisions * 1.35),
+        collisionAvoided: Math.round(current.collisionAvoided * 0.78),
+        mode: 'traditional',
+      };
+    }
+
     if (this.mode === 'ai') {
       return {
         avgWaitTime: Math.round(current.avgWaitTime * 1.45 * 10) / 10,

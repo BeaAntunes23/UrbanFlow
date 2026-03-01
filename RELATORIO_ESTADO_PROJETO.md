@@ -86,9 +86,19 @@ Melhorias metodológicas recentes:
 - comparação estatística com deteção automática de pares (`analysis_type=paired` quando disponível).
 
 ### 3.2 Módulo de Aprendizagem (RL)
-Estado: **Parcial / não explícito como RL formal**
+Estado: **Implementado (Q-Learning tabular)**
 
-Atualmente existe otimização heurística no modo IA (ajuste de verde por filas e prioridade de emergência), mas não há ainda um agente de Reinforcement Learning formalmente treinado e avaliado.
+Foi integrado um agente RL com:
+- definição explícita de **estado** (fase atual + discretização de filas NS/EW + presença de emergência);
+- definição explícita de **ações** (duração do verde em segundos);
+- definição explícita de **recompensa** (redução de filas, penalização de pressão de fila e colisões);
+- atualização por Q-Learning (`alpha`, `gamma`, `epsilon-greedy`);
+- persistência de política e diagnóstico de treino.
+
+Treino e avaliação:
+- script de treino: `Frontend/scripts/train-rl-agent.cjs`;
+- script de avaliação comparativa: `Frontend/scripts/evaluate-rl-agent.cjs` (Tradicional vs IA heurística vs RL);
+- artefactos em `Frontend/experiments/results` (`rl_policy_latest.json`, histórico de treino, avaliação).
 
 ### 3.3 Gestão de Dados de Experiência
 Estado: **Implementado (núcleo de campanha)**

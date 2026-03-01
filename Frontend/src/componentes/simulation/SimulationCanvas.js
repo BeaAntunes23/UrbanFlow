@@ -258,8 +258,12 @@ export const SimulationCanvas = ({ engineRef }) => {
     ctx.fillText(`${engine.vehicles.length} veic.`, padding - 45, padding - 6);
 
     // Mode indicator
-    const modeText = engine.mode === 'ai' ? 'IA OTIMIZADA' : 'CICLO FIXO';
-    const modeColor = engine.mode === 'ai' ? '#3b82f6' : '#71717a';
+    const modeText = engine.mode === 'ai'
+      ? 'IA OTIMIZADA'
+      : engine.mode === 'rl'
+        ? 'RL Q-LEARNING'
+        : 'CICLO FIXO';
+    const modeColor = engine.mode === 'ai' ? '#3b82f6' : engine.mode === 'rl' ? '#10b981' : '#71717a';
     ctx.fillStyle = modeColor;
     ctx.font = 'bold 10px Manrope, sans-serif';
     ctx.fillText(modeText, width - padding - 80, padding - 20);
