@@ -144,6 +144,92 @@ export const SimulationCanvas = ({ engineRef }) => {
       }
     }
 
+    const drawCar = (x, y, horizontal, color, width, height) => {
+      const bodyW = horizontal ? width : height;
+      const bodyH = horizontal ? height : width;
+      const rx = x - bodyW / 2;
+      const ry = y - bodyH / 2;
+      const radius = Math.max(2, Math.min(bodyW, bodyH) * 0.24);
+
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(rx + radius, ry);
+      ctx.lineTo(rx + bodyW - radius, ry);
+      ctx.quadraticCurveTo(rx + bodyW, ry, rx + bodyW, ry + radius);
+      ctx.lineTo(rx + bodyW, ry + bodyH - radius);
+      ctx.quadraticCurveTo(rx + bodyW, ry + bodyH, rx + bodyW - radius, ry + bodyH);
+      ctx.lineTo(rx + radius, ry + bodyH);
+      ctx.quadraticCurveTo(rx, ry + bodyH, rx, ry + bodyH - radius);
+      ctx.lineTo(rx, ry + radius);
+      ctx.quadraticCurveTo(rx, ry, rx + radius, ry);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = 'rgba(255,255,255,0.35)';
+      if (horizontal) {
+        ctx.fillRect(x - bodyW * 0.2, y - bodyH * 0.35, bodyW * 0.4, bodyH * 0.25);
+      } else {
+        ctx.fillRect(x - bodyW * 0.35, y - bodyH * 0.2, bodyW * 0.25, bodyH * 0.4);
+      }
+    };
+
+    const drawBus = (x, y, horizontal, color, width, height) => {
+      const bodyW = horizontal ? width : height;
+      const bodyH = horizontal ? height : width;
+      const rx = x - bodyW / 2;
+      const ry = y - bodyH / 2;
+
+      ctx.fillStyle = color;
+      ctx.fillRect(rx, ry, bodyW, bodyH);
+
+      ctx.fillStyle = '#111827';
+      if (horizontal) {
+        const windowW = bodyW / 6;
+        for (let i = 0; i < 4; i++) {
+          ctx.fillRect(rx + 3 + i * (windowW + 1), ry + 1.5, windowW, Math.max(2, bodyH * 0.35));
+        }
+      } else {
+        const windowH = bodyH / 6;
+        for (let i = 0; i < 4; i++) {
+          ctx.fillRect(rx + 1.5, ry + 3 + i * (windowH + 1), Math.max(2, bodyW * 0.35), windowH);
+        }
+      }
+
+      ctx.strokeStyle = 'rgba(0,0,0,0.45)';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(rx + 0.5, ry + 0.5, bodyW - 1, bodyH - 1);
+    };
+
+    const drawAmbulance = (x, y, horizontal, color, width, height, time) => {
+      const bodyW = horizontal ? width : height;
+      const bodyH = horizontal ? height : width;
+      const rx = x - bodyW / 2;
+      const ry = y - bodyH / 2;
+
+      ctx.save();
+      ctx.shadowColor = '#ef4444';
+      ctx.shadowBlur = 12;
+      ctx.fillStyle = color;
+      ctx.fillRect(rx, ry, bodyW, bodyH);
+      ctx.restore();
+
+      ctx.fillStyle = '#ffffff';
+      const crossSize = Math.max(2, Math.min(bodyW, bodyH) * 0.45);
+      if (horizontal) {
+        ctx.fillRect(x - crossSize * 0.5, y - 1, crossSize, 2);
+        ctx.fillRect(x - 1, y - crossSize * 0.5, 2, crossSize);
+      } else {
+        ctx.fillRect(x - crossSize * 0.5, y - 1, crossSize, 2);
+        ctx.fillRect(x - 1, y - crossSize * 0.5, 2, crossSize);
+      }
+
+      const flash = Math.sin(time * 12) > 0;
+      ctx.fillStyle = flash ? '#ffffff' : '#3b82f6';
+      ctx.beginPath();
+      ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+    };
+
     // Draw vehicles
     for (const vehicle of engine.vehicles) {
       const current = vehicle.route[vehicle.routeIndex];
@@ -189,36 +275,15 @@ export const SimulationCanvas = ({ engineRef }) => {
         vy = padding + current.row * cellH;
       }
 
-      // Draw vehicle body
       const w = vehicle.width;
       const h = vehicle.height;
 
       if (vehicle.type === 'ambulance') {
-        // Ambulance glow
-        ctx.save();
-        ctx.shadowColor = '#ef4444';
-        ctx.shadowBlur = 12;
-        ctx.fillStyle = vehicle.color;
-        if (isHorizontal) {
-          ctx.fillRect(vx - w / 2, vy - h / 2, w, h);
-        } else {
-          ctx.fillRect(vx - h / 2, vy - w / 2, h, w);
-        }
-        ctx.restore();
-
-        // Flash
-        const flash = Math.sin(engine.time * 12) > 0;
-        ctx.fillStyle = flash ? '#ffffff' : '#3b82f6';
-        ctx.beginPath();
-        ctx.arc(vx, vy, 2.5, 0, Math.PI * 2);
-        ctx.fill();
+        drawAmbulance(vx, vy, isHorizontal, vehicle.color, w, h, engine.time);
+      } else if (vehicle.type === 'bus') {
+        drawBus(vx, vy, isHorizontal, vehicle.color, w, h);
       } else {
-        ctx.fillStyle = vehicle.color;
-        if (isHorizontal) {
-          ctx.fillRect(vx - w / 2, vy - h / 2, w, h);
-        } else {
-          ctx.fillRect(vx - h / 2, vy - w / 2, h, w);
-        }
+        drawCar(vx, vy, isHorizontal, vehicle.color, w, h);
       }
     }
 
