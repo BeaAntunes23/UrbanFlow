@@ -352,6 +352,38 @@ export const SimulationCanvas = ({ engineRef }) => {
       ctx.fillText('Clique em Iniciar para continuar', width / 2, height / 2 + 25);
       ctx.textAlign = 'left';
     }
+
+    // Vehicle legend
+    const legendX = width - padding - 150;
+    const legendY = height - padding - 74;
+    const legendW = 140;
+    const legendH = 66;
+
+    ctx.fillStyle = 'rgba(12, 12, 15, 0.86)';
+    ctx.strokeStyle = '#3f3f46';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(legendX, legendY, legendW, legendH, 8);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.font = '10px Manrope, sans-serif';
+    ctx.fillStyle = '#f4f4f5';
+    ctx.fillText('Legenda', legendX + 8, legendY + 14);
+
+    const legendItems = [
+      { label: 'Ligeiro', color: '#60a5fa' },
+      { label: 'Pesado', color: '#f59e0b' },
+      { label: 'Emergência', color: '#ef4444' },
+    ];
+
+    legendItems.forEach((item, index) => {
+      const y = legendY + 26 + index * 14;
+      ctx.fillStyle = item.color;
+      ctx.fillRect(legendX + 8, y - 8, 10, 8);
+      ctx.fillStyle = '#d4d4d8';
+      ctx.fillText(item.label, legendX + 24, y - 1);
+    });
   }, [engineRef]);
 
   React.useEffect(() => {
