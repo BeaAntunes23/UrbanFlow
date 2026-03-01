@@ -165,12 +165,26 @@ export const SimulationCanvas = ({ engineRef }) => {
       ctx.closePath();
       ctx.fill();
 
+      ctx.strokeStyle = 'rgba(0,0,0,0.55)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
       ctx.fillStyle = 'rgba(255,255,255,0.35)';
       if (horizontal) {
         ctx.fillRect(x - bodyW * 0.2, y - bodyH * 0.35, bodyW * 0.4, bodyH * 0.25);
       } else {
         ctx.fillRect(x - bodyW * 0.35, y - bodyH * 0.2, bodyW * 0.25, bodyH * 0.4);
       }
+    };
+
+    const drawVehicleHalo = (x, y, color, radius) => {
+      const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+      gradient.addColorStop(0, `${color}99`);
+      gradient.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.fill();
     };
 
     const drawBus = (x, y, horizontal, color, width, height) => {
@@ -275,8 +289,16 @@ export const SimulationCanvas = ({ engineRef }) => {
         vy = padding + current.row * cellH;
       }
 
-      const w = vehicle.width;
-      const h = vehicle.height;
+      const baseLong = Math.max(vehicle.width, roadWidth * 1.35, 11);
+      const baseShort = Math.max(vehicle.height, roadWidth * 0.82, 7);
+      const typeScale = vehicle.type === 'bus' ? 1.18 : vehicle.type === 'ambulance' ? 1.08 : 1;
+      const renderLong = baseLong * typeScale;
+      const renderShort = baseShort;
+      const w = isHorizontal ? renderLong : renderShort;
+      const h = isHorizontal ? renderShort : renderLong;
+
+      const haloRadius = vehicle.type === 'bus' ? Math.max(w, h) * 0.95 : Math.max(w, h) * 0.85;
+      drawVehicleHalo(vx, vy, vehicle.color || '#60a5fa', haloRadius);
 
       if (vehicle.type === 'ambulance') {
         drawAmbulance(vx, vy, isHorizontal, vehicle.color, w, h, engine.time);
