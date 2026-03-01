@@ -45,7 +45,7 @@ const toCsv = (rows) => {
   return lines.join('\n');
 };
 
-export const MetricsWidget = ({ metrics, comparison, config }) => {
+export const MetricsWidget = ({ metrics, comparison, config, sidebar = false }) => {
   const postWithFallback = async (endpoint, body, options = {}) => {
     try {
       return await axios.post(`${API}${endpoint}`, body, { timeout: 8000, ...options });
@@ -185,10 +185,19 @@ export const MetricsWidget = ({ metrics, comparison, config }) => {
     },
   ];
 
-  return (
-    <div
-      data-testid="metrics-widget"
-      style={{
+  const containerStyle = sidebar
+    ? {
+        width: 320,
+        height: '100%',
+        boxSizing: 'border-box',
+        borderLeft: '1px solid #27272a',
+        background: '#0c0c0f',
+        display: 'grid',
+        gap: 8,
+        padding: 16,
+        overflowY: 'auto',
+      }
+    : {
         position: 'absolute',
         right: 16,
         bottom: 16,
@@ -196,7 +205,12 @@ export const MetricsWidget = ({ metrics, comparison, config }) => {
         display: 'grid',
         gap: 8,
         zIndex: 12,
-      }}
+      };
+
+  return (
+    <div
+      data-testid="metrics-widget"
+      style={containerStyle}
     >
       {cards.map((item) => (
         <div key={item.title} style={cardStyle}>

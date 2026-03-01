@@ -92,30 +92,34 @@ function App() {
           setActiveRules={setActiveRules}
         />
 
-        <main style={{ position: "relative", flex: 1, minWidth: 0 }}>
-          <button
-            onClick={() => setShowFigures(true)}
-            style={{
-              position: "absolute",
-              top: 14,
-              right: 14,
-              zIndex: 20,
-              borderRadius: 8,
-              border: "1px solid #52525b",
-              background: "rgba(12,12,15,0.9)",
-              color: "#fafafa",
-              padding: "8px 12px",
-              cursor: "pointer",
-            }}
-          >
-            Ver gráficos
-          </button>
+        <main style={{ display: "flex", flex: 1, minWidth: 0 }}>
+          <section style={{ position: "relative", flex: 1, minWidth: 0 }}>
+            <button
+              onClick={() => setShowFigures(true)}
+              style={{
+                position: "absolute",
+                top: 14,
+                right: 14,
+                zIndex: 20,
+                borderRadius: 8,
+                border: "1px solid #52525b",
+                background: "rgba(12,12,15,0.9)",
+                color: "#fafafa",
+                padding: "8px 12px",
+                cursor: "pointer",
+              }}
+            >
+              Ver gráficos
+            </button>
 
-          <SimulationCanvas engineRef={engineRef} />
+            <SimulationCanvas engineRef={engineRef} />
+          </section>
+
           <MetricsWidget
             metrics={metrics}
             comparison={comparison}
             config={config}
+            sidebar
           />
         </main>
       </div>
