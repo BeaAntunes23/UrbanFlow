@@ -12,6 +12,7 @@ const DEFAULTS = {
   dt: 0.2,
   speed: 1,
   gridSize: 6,
+  seedBase: 20260301,
 };
 
 const SCENARIOS = ['normal', 'rush_hour', 'accident', 'emergency'];
@@ -37,6 +38,9 @@ function parseArgs(argv) {
       i += 1;
     } else if (token === '--grid' && next) {
       args.gridSize = Number(next);
+      i += 1;
+    } else if (token === '--seed-base' && next) {
+      args.seedBase = Number(next);
       i += 1;
     }
   }
@@ -125,13 +129,13 @@ function runSingleExperiment(SimulationEngine, params) {
 function runCampaign(config) {
   const SimulationEngine = loadSimulationEngine();
   const rows = [];
-  let seedBase = 20260228;
 
-  for (const scenario of SCENARIOS) {
-    for (const mode of MODES) {
-      for (let repetition = 1; repetition <= config.repetitions; repetition++) {
-        seedBase += 17;
-        const seed = seedBase + repetition;
+  SCENARIOS.forEach((scenario, scenarioIndex) => {
+    for (let repetition = 1; repetition <= config.repetitions; repetition++) {
+      const pairedSeed = config.seedBase + scenarioIndex * 100000 + repetition * 97;
+      const pairId = `${scenario}_rep_${repetition}`;
+
+      for (const mode of MODES) {
         const result = runSingleExperiment(SimulationEngine, {
           scenario,
           mode,
@@ -139,12 +143,18 @@ function runCampaign(config) {
           dt: config.dt,
           speed: config.speed,
           gridSize: config.gridSize,
-          seed,
+          seed: pairedSeed,
         });
-        rows.push(result);
+
+        rows.push({
+          campaign_id: '',
+          pair_id: pairId,
+          repetition,
+          ...result,
+        });
       }
     }
-  }
+  });
 
   return rows;
 }
@@ -157,12 +167,21 @@ function writeOutputs(rows, config) {
   ensureDirectories();
 
   const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const campaignId = `campaign_${stamp}`;
   const csvFile = path.resolve(RESULTS_DIR, `campaign_${stamp}.csv`);
   const jsonFile = path.resolve(RESULTS_DIR, `campaign_${stamp}.json`);
   const latestCsv = path.resolve(RESULTS_DIR, 'latest.csv');
   const latestJson = path.resolve(RESULTS_DIR, 'latest.json');
 
+  const rowsWithCampaign = rows.map((row) => ({
+    ...row,
+    campaign_id: campaignId,
+  }));
+
   const columns = [
+    'campaign_id',
+    'pair_id',
+    'repetition',
     'timestamp',
     'scenario',
     'mode',
@@ -180,13 +199,23 @@ function writeOutputs(rows, config) {
     'simulation_time',
   ];
 
-  const csvText = toCsv(rows, columns);
+  const csvText = toCsv(rowsWithCampaign, columns);
+  const totalPairs = SCENARIOS.length * config.repetitions;
   const payload = {
+    campaign_id: campaignId,
     generated_at: new Date().toISOString(),
     config,
+    experiment_design: {
+      paired_comparison: true,
+      pair_definition: 'same scenario + same repetition + same seed for both modes',
+      random_generator: 'mulberry32',
+      total_pairs: totalPairs,
+      total_runs: rowsWithCampaign.length,
+      expected_runs_per_mode: totalPairs,
+    },
     scenarios: SCENARIOS,
     modes: MODES,
-    rows,
+    rows: rowsWithCampaign,
   };
 
   fs.writeFileSync(csvFile, csvText, 'utf8');
@@ -194,19 +223,27 @@ function writeOutputs(rows, config) {
   fs.writeFileSync(latestCsv, csvText, 'utf8');
   fs.writeFileSync(latestJson, JSON.stringify(payload, null, 2), 'utf8');
 
-  return { csvFile, jsonFile, latestCsv, latestJson };
+  return { csvFile, jsonFile, latestCsv, latestJson, campaignId, totalPairs };
 }
 
 function main() {
   const config = parseArgs(process.argv.slice(2));
-  if (config.repetitions <= 0 || config.duration <= 0 || config.dt <= 0 || config.gridSize < 2) {
-    throw new Error('Parâmetros inválidos. Verifica --repetitions, --duration, --dt e --grid.');
+  if (
+    config.repetitions <= 0 ||
+    config.duration <= 0 ||
+    config.dt <= 0 ||
+    config.gridSize < 2 ||
+    !Number.isFinite(config.seedBase)
+  ) {
+    throw new Error('Parâmetros inválidos. Verifica --repetitions, --duration, --dt, --grid e --seed-base.');
   }
 
   console.log('[experiment] Configuração:', config);
   const rows = runCampaign(config);
   const files = writeOutputs(rows, config);
 
+  console.log(`[experiment] Campanha: ${files.campaignId}`);
+  console.log(`[experiment] Pares cenário-repetição: ${files.totalPairs}`);
   console.log(`[experiment] Corridas executadas: ${rows.length}`);
   console.log(`[experiment] CSV: ${files.csvFile}`);
   console.log(`[experiment] JSON: ${files.jsonFile}`);

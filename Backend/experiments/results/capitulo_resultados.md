@@ -20,28 +20,28 @@ Para a inferência estatística foram usados:
 ## Resultados por Cenário
 
 ### accident
-- Na métrica **tempo médio de espera**, o modo IA apresentou média 21.800 (Tradicional: 36.740), com diferença IA-Tradicional de -14.940 (CI95: [-21.261, -9.280]), correspondendo a redução de 40.66%; p=0.0067.
-- Na métrica **taxa de fluxo**, o modo IA apresentou média 20.300 (Tradicional: 9.300), com diferença IA-Tradicional de 11.000 (CI95: [9.300, 12.600]), correspondendo a aumento de 118.28%; p=0.0067.
-- Na métrica **emissões de CO2**, o modo IA apresentou média 145.218 (Tradicional: 119.270), com diferença IA-Tradicional de 25.948 (CI95: [-12.209, 60.009]), correspondendo a aumento de 21.76%; p=0.2419.
-- Na métrica **tempo de resposta de emergência**, o modo IA apresentou média 3.480 (Tradicional: 28.600), com diferença IA-Tradicional de -25.120 (CI95: [-38.261, -9.419]), correspondendo a redução de 87.83%; p=0.0457.
+- Na métrica **tempo médio de espera**, o modo IA apresentou média 20.560 (Tradicional: 39.940), com diferença IA-Tradicional de -19.380 (CI95: [-24.580, -15.720]), correspondendo a redução de 48.52%; p=0.0647 (análise emparelhada (n pares=5)).
+- Na métrica **taxa de fluxo**, o modo IA apresentou média 19.500 (Tradicional: 8.700), com diferença IA-Tradicional de 10.800 (CI95: [8.600, 13.000]), correspondendo a aumento de 124.14%; p=0.0647 (análise emparelhada (n pares=5)).
+- Na métrica **emissões de CO2**, o modo IA apresentou média 135.602 (Tradicional: 111.972), com diferença IA-Tradicional de 23.630 (CI95: [6.520, 40.138]), correspondendo a aumento de 21.10%; p=0.1265 (análise emparelhada (n pares=5)).
+- Na métrica **tempo de resposta de emergência**, o modo IA apresentou média 3.420 (Tradicional: 40.980), com diferença IA-Tradicional de -37.560 (CI95: [-56.400, -15.140]), correspondendo a redução de 91.65%; p=0.1217 (análise emparelhada (n pares=5)).
 
 ### emergency
-- Na métrica **tempo médio de espera**, o modo IA apresentou média 15.140 (Tradicional: 34.660), com diferença IA-Tradicional de -19.520 (CI95: [-24.040, -14.440]), correspondendo a redução de 56.32%; p=0.0047.
-- Na métrica **taxa de fluxo**, o modo IA apresentou média 23.700 (Tradicional: 16.100), com diferença IA-Tradicional de 7.600 (CI95: [5.800, 9.200]), correspondendo a aumento de 47.20%; p=0.0067.
-- Na métrica **emissões de CO2**, o modo IA apresentou média 135.478 (Tradicional: 186.310), com diferença IA-Tradicional de -50.832 (CI95: [-81.962, -22.174]), correspondendo a redução de 27.28%; p=0.0220.
-- Na métrica **tempo de resposta de emergência**, o modo IA apresentou média 1.880 (Tradicional: 34.220), com diferença IA-Tradicional de -32.340 (CI95: [-36.221, -28.480]), correspondendo a redução de 94.51%; p=0.0067.
+- Na métrica **tempo médio de espera**, o modo IA apresentou média 16.240 (Tradicional: 32.460), com diferença IA-Tradicional de -16.220 (CI95: [-19.960, -12.480]), correspondendo a redução de 49.97%; p=0.0647 (análise emparelhada (n pares=5)).
+- Na métrica **taxa de fluxo**, o modo IA apresentou média 23.700 (Tradicional: 16.800), com diferença IA-Tradicional de 6.900 (CI95: [5.598, 8.100]), correspondendo a aumento de 41.07%; p=0.0647 (análise emparelhada (n pares=5)).
+- Na métrica **emissões de CO2**, o modo IA apresentou média 137.132 (Tradicional: 188.492), com diferença IA-Tradicional de -51.360 (CI95: [-85.624, -17.474]), correspondendo a redução de 27.25%; p=0.0647 (análise emparelhada (n pares=5)).
+- Na métrica **tempo de resposta de emergência**, o modo IA apresentou média 1.860 (Tradicional: 32.580), com diferença IA-Tradicional de -30.720 (CI95: [-32.600, -28.700]), correspondendo a redução de 94.29%; p=0.0647 (análise emparelhada (n pares=5)).
 
 ### normal
-- Na métrica **tempo médio de espera**, o modo IA apresentou média 21.280 (Tradicional: 34.280), com diferença IA-Tradicional de -13.000 (CI95: [-16.800, -8.780]), correspondendo a redução de 37.92%; p=0.0045.
-- Na métrica **taxa de fluxo**, o modo IA apresentou média 19.700 (Tradicional: 13.100), com diferença IA-Tradicional de 6.600 (CI95: [6.200, 7.100]), correspondendo a aumento de 50.38%; p=0.0067.
-- Na métrica **emissões de CO2**, o modo IA apresentou média 144.538 (Tradicional: 129.758), com diferença IA-Tradicional de 14.780 (CI95: [-6.871, 38.640]), correspondendo a aumento de 11.39%; p=0.2874.
-- Na métrica **tempo de resposta de emergência**, o modo IA apresentou média 1.840 (Tradicional: 19.320), com diferença IA-Tradicional de -17.480 (CI95: [-34.380, -0.700]), correspondendo a redução de 90.48%; p=0.1560.
+- Na métrica **tempo médio de espera**, o modo IA apresentou média 19.240 (Tradicional: 29.520), com diferença IA-Tradicional de -10.280 (CI95: [-12.820, -7.740]), correspondendo a redução de 34.82%; p=0.0647 (análise emparelhada (n pares=5)).
+- Na métrica **taxa de fluxo**, o modo IA apresentou média 19.200 (Tradicional: 13.700), com diferença IA-Tradicional de 5.500 (CI95: [4.600, 6.200]), correspondendo a aumento de 40.15%; p=0.0647 (análise emparelhada (n pares=5)).
+- Na métrica **emissões de CO2**, o modo IA apresentou média 129.176 (Tradicional: 143.750), com diferença IA-Tradicional de -14.574 (CI95: [-37.444, 3.398]), correspondendo a redução de 10.14%; p=0.4429 (análise emparelhada (n pares=5)).
+- Na métrica **tempo de resposta de emergência**, o modo IA apresentou média 1.920 (Tradicional: 24.960), com diferença IA-Tradicional de -23.040 (CI95: [-39.280, -7.280]), correspondendo a redução de 92.31%; p=0.1265 (análise emparelhada (n pares=5)).
 
 ### rush_hour
-- Na métrica **tempo médio de espera**, o modo IA apresentou média 26.080 (Tradicional: 39.400), com diferença IA-Tradicional de -13.320 (CI95: [-15.941, -10.580]), correspondendo a redução de 33.81%; p=0.0067.
-- Na métrica **taxa de fluxo**, o modo IA apresentou média 50.900 (Tradicional: 30.300), com diferença IA-Tradicional de 20.600 (CI95: [16.900, 25.500]), correspondendo a aumento de 67.99%; p=0.0067.
-- Na métrica **emissões de CO2**, o modo IA apresentou média 453.706 (Tradicional: 407.392), com diferença IA-Tradicional de 46.314 (CI95: [2.682, 85.032]), correspondendo a aumento de 11.37%; p=0.0902.
-- Na métrica **tempo de resposta de emergência**, o modo IA apresentou média 1.780 (Tradicional: 44.400), com diferença IA-Tradicional de -42.620 (CI95: [-48.341, -36.999]), correspondendo a redução de 95.99%; p=0.0067.
+- Na métrica **tempo médio de espera**, o modo IA apresentou média 25.720 (Tradicional: 39.520), com diferença IA-Tradicional de -13.800 (CI95: [-16.420, -11.600]), correspondendo a redução de 34.92%; p=0.0647 (análise emparelhada (n pares=5)).
+- Na métrica **taxa de fluxo**, o modo IA apresentou média 49.900 (Tradicional: 28.900), com diferença IA-Tradicional de 21.000 (CI95: [19.200, 22.800]), correspondendo a aumento de 72.66%; p=0.0647 (análise emparelhada (n pares=5)).
+- Na métrica **emissões de CO2**, o modo IA apresentou média 476.892 (Tradicional: 415.130), com diferença IA-Tradicional de 61.762 (CI95: [22.178, 92.018]), correspondendo a aumento de 14.88%; p=0.1305 (análise emparelhada (n pares=5)).
+- Na métrica **tempo de resposta de emergência**, o modo IA apresentou média 1.740 (Tradicional: 40.060), com diferença IA-Tradicional de -38.320 (CI95: [-60.840, -15.567]), correspondendo a redução de 95.66%; p=0.1217 (análise emparelhada (n pares=5)).
 
 ## Síntese
 

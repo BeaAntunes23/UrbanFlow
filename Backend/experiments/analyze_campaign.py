@@ -45,6 +45,21 @@ def permutation_pvalue(a: np.ndarray, b: np.ndarray, n_perm: int = 4000) -> floa
     return (count + 1) / (n_perm + 1)
 
 
+def paired_permutation_pvalue(a: np.ndarray, b: np.ndarray, n_perm: int = 4000) -> float:
+    rng = np.random.default_rng(20260301)
+    diffs = a - b
+    observed = float(np.mean(diffs))
+    count = 0
+
+    for _ in range(n_perm):
+        signs = rng.choice(np.array([1.0, -1.0]), size=len(diffs), replace=True)
+        permuted = diffs * signs
+        if abs(float(np.mean(permuted))) >= abs(observed):
+            count += 1
+
+    return (count + 1) / (n_perm + 1)
+
+
 def bootstrap_ci_difference(
     a: np.ndarray, b: np.ndarray, n_boot: int = 3000
 ) -> tuple[float, float]:
@@ -58,6 +73,46 @@ def bootstrap_ci_difference(
 
     lo, hi = np.percentile(diffs, [2.5, 97.5])
     return (float(lo), float(hi))
+
+
+def paired_bootstrap_ci_difference(
+    a: np.ndarray, b: np.ndarray, n_boot: int = 3000
+) -> tuple[float, float]:
+    rng = np.random.default_rng(20260301)
+    diffs = a - b
+    means: List[float] = []
+
+    for _ in range(n_boot):
+        sample = rng.choice(diffs, size=len(diffs), replace=True)
+        means.append(float(np.mean(sample)))
+
+    lo, hi = np.percentile(means, [2.5, 97.5])
+    return (float(lo), float(hi))
+
+
+def _pair_keys(df: pd.DataFrame) -> list[str]:
+    if "pair_id" in df.columns:
+        return ["pair_id"]
+
+    keys: list[str] = []
+    for column in ["repetition", "seed", "campaign_id"]:
+        if column in df.columns:
+            keys.append(column)
+    return keys
+
+
+def _build_paired_subset(subset: pd.DataFrame, metric: str) -> pd.DataFrame:
+    keys = _pair_keys(subset)
+    if not keys:
+        return pd.DataFrame()
+
+    pivot = (
+        subset[keys + ["mode", metric]]
+        .pivot_table(index=keys, columns="mode", values=metric, aggfunc="mean")
+        .dropna(subset=["ai", "traditional"])
+        .reset_index()
+    )
+    return pivot
 
 
 def summarize(df: pd.DataFrame) -> pd.DataFrame:
@@ -96,19 +151,37 @@ def compare_modes(df: pd.DataFrame) -> pd.DataFrame:
             ai_vals = ai[metric].astype(float).to_numpy()
             trad_vals = trad[metric].astype(float).to_numpy()
 
-            diff = float(np.mean(ai_vals) - np.mean(trad_vals))
-            pvalue = permutation_pvalue(ai_vals, trad_vals)
-            ci_lo, ci_hi = bootstrap_ci_difference(ai_vals, trad_vals)
+            paired = _build_paired_subset(subset, metric)
+            if not paired.empty:
+                ai_vals_p = paired["ai"].astype(float).to_numpy()
+                trad_vals_p = paired["traditional"].astype(float).to_numpy()
+                diff = float(np.mean(ai_vals_p) - np.mean(trad_vals_p))
+                pvalue = paired_permutation_pvalue(ai_vals_p, trad_vals_p)
+                ci_lo, ci_hi = paired_bootstrap_ci_difference(ai_vals_p, trad_vals_p)
+                analysis_type = "paired"
+                n_pairs = int(len(paired))
+            else:
+                diff = float(np.mean(ai_vals) - np.mean(trad_vals))
+                pvalue = permutation_pvalue(ai_vals, trad_vals)
+                ci_lo, ci_hi = bootstrap_ci_difference(ai_vals, trad_vals)
+                analysis_type = "unpaired"
+                n_pairs = 0
 
             if metric in LOWER_IS_BETTER:
-                improvement_pct = float((np.mean(trad_vals) - np.mean(ai_vals)) / np.mean(trad_vals) * 100)
+                denominator = np.mean(trad_vals)
+                improvement_pct = float((np.mean(trad_vals) - np.mean(ai_vals)) / denominator * 100) if denominator else 0.0
             else:
-                improvement_pct = float((np.mean(ai_vals) - np.mean(trad_vals)) / np.mean(trad_vals) * 100)
+                denominator = np.mean(trad_vals)
+                improvement_pct = float((np.mean(ai_vals) - np.mean(trad_vals)) / denominator * 100) if denominator else 0.0
 
             rows.append(
                 {
                     "scenario": scenario,
                     "metric": metric,
+                    "analysis_type": analysis_type,
+                    "n_pairs": n_pairs,
+                    "n_ai": int(len(ai_vals)),
+                    "n_traditional": int(len(trad_vals)),
                     "ai_mean": float(np.mean(ai_vals)),
                     "traditional_mean": float(np.mean(trad_vals)),
                     "difference_ai_minus_traditional": diff,
@@ -151,6 +224,7 @@ def to_markdown(summary_df: pd.DataFrame, comparison_df: pd.DataFrame, source_cs
         for _, row in scenario_rows.iterrows():
             lines.append(
                 f"- {row['metric']}: IA={row['ai_mean']:.3f}, Trad={row['traditional_mean']:.3f}, "
+                f"análise={row['analysis_type']}, pares={int(row['n_pairs'])}, "
                 f"Δ={row['difference_ai_minus_traditional']:.3f}, "
                 f"CI95(Δ)=[{row['difference_ci95_lo']:.3f}, {row['difference_ci95_hi']:.3f}], "
                 f"melhoria={row['improvement_percent']:.2f}%, p={row['pvalue_permutation']:.4f}"
@@ -159,8 +233,8 @@ def to_markdown(summary_df: pd.DataFrame, comparison_df: pd.DataFrame, source_cs
 
     lines.append("## Nota Metodológica")
     lines.append("- Intervalos de confiança de cada modo: aproximação normal (95%).")
-    lines.append("- Intervalo para diferença IA-Tradicional: bootstrap (95%).")
-    lines.append("- Significância: teste de permutação bilateral.")
+    lines.append("- Diferença IA-Tradicional: bootstrap e teste de permutação.")
+    lines.append("- Sempre que possível, comparação emparelhada por cenário/repetição/seed.")
 
     return "\n".join(lines)
 

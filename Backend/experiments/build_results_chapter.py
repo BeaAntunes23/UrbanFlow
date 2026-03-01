@@ -63,12 +63,21 @@ def build_chapter(comparison_df: pd.DataFrame, source_csv: Path) -> str:
             diff = float(row["difference_ai_minus_traditional"])
             ci_lo = float(row["difference_ci95_lo"])
             ci_hi = float(row["difference_ci95_hi"])
+            analysis_type = row.get("analysis_type", "unpaired")
+            n_pairs = int(row.get("n_pairs", 0))
+            n_ai = int(row.get("n_ai", 0))
+            n_traditional = int(row.get("n_traditional", 0))
+
+            if analysis_type == "paired":
+                method_text = f"análise emparelhada (n pares={n_pairs})"
+            else:
+                method_text = f"análise não emparelhada (n IA={n_ai}, n Tradicional={n_traditional})"
 
             lines.append(
                 f"- Na métrica **{metric_name}**, o modo IA apresentou média {ai_mean:.3f} "
                 f"(Tradicional: {trad_mean:.3f}), com diferença IA-Tradicional de {diff:.3f} "
                 f"(CI95: [{ci_lo:.3f}, {ci_hi:.3f}]), correspondendo a {interpretation(metric, improvement)}; "
-                f"p={pvalue:.4f}."
+                f"p={pvalue:.4f} ({method_text})."
             )
 
         lines.append("")

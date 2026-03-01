@@ -6,79 +6,79 @@ Fonte de dados: `C:\Users\Lenovo\OneDrive - UTAD\LEI\3º ano\2º semestre\Labora
 
 ### Cenário: accident
 - Modo: **ai** (n=5)
-  - avg_wait_time: mean=21.800, CI95=[18.051, 25.549]
-  - flow_rate: mean=20.300, CI95=[19.446, 21.154]
-  - co2_emissions: mean=145.218, CI95=[121.646, 168.790]
-  - emergency_response_time: mean=3.480, CI95=[2.826, 4.134]
+  - avg_wait_time: mean=20.560, CI95=[18.387, 22.733]
+  - flow_rate: mean=19.500, CI95=[17.615, 21.385]
+  - co2_emissions: mean=135.602, CI95=[112.468, 158.736]
+  - emergency_response_time: mean=3.420, CI95=[2.871, 3.969]
 - Modo: **traditional** (n=5)
-  - avg_wait_time: mean=36.740, CI95=[30.845, 42.635]
-  - flow_rate: mean=9.300, CI95=[7.586, 11.014]
-  - co2_emissions: mean=119.270, CI95=[86.663, 151.877]
-  - emergency_response_time: mean=28.600, CI95=[12.974, 44.226]
+  - avg_wait_time: mean=39.940, CI95=[35.552, 44.328]
+  - flow_rate: mean=8.700, CI95=[7.691, 9.709]
+  - co2_emissions: mean=111.972, CI95=[89.192, 134.752]
+  - emergency_response_time: mean=40.980, CI95=[17.971, 63.989]
 
 ### Cenário: emergency
 - Modo: **ai** (n=5)
-  - avg_wait_time: mean=15.140, CI95=[12.817, 17.463]
-  - flow_rate: mean=23.700, CI95=[22.516, 24.884]
-  - co2_emissions: mean=135.478, CI95=[112.473, 158.483]
-  - emergency_response_time: mean=1.880, CI95=[1.841, 1.919]
+  - avg_wait_time: mean=16.240, CI95=[12.176, 20.304]
+  - flow_rate: mean=23.700, CI95=[22.557, 24.843]
+  - co2_emissions: mean=137.132, CI95=[104.980, 169.284]
+  - emergency_response_time: mean=1.860, CI95=[1.782, 1.938]
 - Modo: **traditional** (n=5)
-  - avg_wait_time: mean=34.660, CI95=[29.591, 39.729]
-  - flow_rate: mean=16.100, CI95=[14.569, 17.631]
-  - co2_emissions: mean=186.310, CI95=[161.798, 210.822]
-  - emergency_response_time: mean=34.220, CI95=[29.640, 38.800]
+  - avg_wait_time: mean=32.460, CI95=[30.715, 34.205]
+  - flow_rate: mean=16.800, CI95=[15.294, 18.306]
+  - co2_emissions: mean=188.492, CI95=[160.823, 216.161]
+  - emergency_response_time: mean=32.580, CI95=[30.397, 34.763]
 
 ### Cenário: normal
 - Modo: **ai** (n=5)
-  - avg_wait_time: mean=21.280, CI95=[17.068, 25.492]
-  - flow_rate: mean=19.700, CI95=[19.460, 19.940]
-  - co2_emissions: mean=144.538, CI95=[123.045, 166.031]
-  - emergency_response_time: mean=1.840, CI95=[1.681, 1.999]
+  - avg_wait_time: mean=19.240, CI95=[17.138, 21.342]
+  - flow_rate: mean=19.200, CI95=[18.960, 19.440]
+  - co2_emissions: mean=129.176, CI95=[107.963, 150.389]
+  - emergency_response_time: mean=1.920, CI95=[1.608, 2.232]
 - Modo: **traditional** (n=5)
-  - avg_wait_time: mean=34.280, CI95=[32.552, 36.008]
-  - flow_rate: mean=13.100, CI95=[12.620, 13.580]
-  - co2_emissions: mean=129.758, CI95=[115.235, 144.281]
-  - emergency_response_time: mean=19.320, CI95=[0.404, 38.236]
+  - avg_wait_time: mean=29.520, CI95=[25.611, 33.429]
+  - flow_rate: mean=13.700, CI95=[12.691, 14.709]
+  - co2_emissions: mean=143.750, CI95=[110.567, 176.933]
+  - emergency_response_time: mean=24.960, CI95=[7.074, 42.846]
 
 ### Cenário: rush_hour
 - Modo: **ai** (n=5)
-  - avg_wait_time: mean=26.080, CI95=[23.098, 29.062]
-  - flow_rate: mean=50.900, CI95=[46.125, 55.675]
-  - co2_emissions: mean=453.706, CI95=[412.087, 495.325]
-  - emergency_response_time: mean=1.780, CI95=[1.636, 1.924]
+  - avg_wait_time: mean=25.720, CI95=[24.633, 26.807]
+  - flow_rate: mean=49.900, CI95=[49.533, 50.267]
+  - co2_emissions: mean=476.892, CI95=[427.146, 526.638]
+  - emergency_response_time: mean=1.740, CI95=[1.558, 1.922]
 - Modo: **traditional** (n=5)
-  - avg_wait_time: mean=39.400, CI95=[38.975, 39.825]
-  - flow_rate: mean=30.300, CI95=[29.291, 31.309]
-  - co2_emissions: mean=407.392, CI95=[387.296, 427.488]
-  - emergency_response_time: mean=44.400, CI95=[37.904, 50.896]
+  - avg_wait_time: mean=39.520, CI95=[36.711, 42.329]
+  - flow_rate: mean=28.900, CI95=[27.163, 30.637]
+  - co2_emissions: mean=415.130, CI95=[389.887, 440.373]
+  - emergency_response_time: mean=40.060, CI95=[15.568, 64.552]
 
 ## Comparação IA vs Tradicional
 
 ### Cenário: accident
-- avg_wait_time: IA=21.800, Trad=36.740, Δ=-14.940, CI95(Δ)=[-21.260, -9.280], melhoria=40.66%, p=0.0067
-- flow_rate: IA=20.300, Trad=9.300, Δ=11.000, CI95(Δ)=[9.300, 12.600], melhoria=118.28%, p=0.0067
-- co2_emissions: IA=145.218, Trad=119.270, Δ=25.948, CI95(Δ)=[-12.209, 60.009], melhoria=-21.76%, p=0.2419
-- emergency_response_time: IA=3.480, Trad=28.600, Δ=-25.120, CI95(Δ)=[-38.261, -9.419], melhoria=87.83%, p=0.0457
+- avg_wait_time: IA=20.560, Trad=39.940, análise=paired, pares=5, Δ=-19.380, CI95(Δ)=[-24.580, -15.720], melhoria=48.52%, p=0.0647
+- flow_rate: IA=19.500, Trad=8.700, análise=paired, pares=5, Δ=10.800, CI95(Δ)=[8.600, 13.000], melhoria=124.14%, p=0.0647
+- co2_emissions: IA=135.602, Trad=111.972, análise=paired, pares=5, Δ=23.630, CI95(Δ)=[6.520, 40.138], melhoria=-21.10%, p=0.1265
+- emergency_response_time: IA=3.420, Trad=40.980, análise=paired, pares=5, Δ=-37.560, CI95(Δ)=[-56.400, -15.140], melhoria=91.65%, p=0.1217
 
 ### Cenário: emergency
-- avg_wait_time: IA=15.140, Trad=34.660, Δ=-19.520, CI95(Δ)=[-24.040, -14.439], melhoria=56.32%, p=0.0047
-- flow_rate: IA=23.700, Trad=16.100, Δ=7.600, CI95(Δ)=[5.800, 9.200], melhoria=47.20%, p=0.0067
-- co2_emissions: IA=135.478, Trad=186.310, Δ=-50.832, CI95(Δ)=[-81.962, -22.174], melhoria=27.28%, p=0.0220
-- emergency_response_time: IA=1.880, Trad=34.220, Δ=-32.340, CI95(Δ)=[-36.221, -28.480], melhoria=94.51%, p=0.0067
+- avg_wait_time: IA=16.240, Trad=32.460, análise=paired, pares=5, Δ=-16.220, CI95(Δ)=[-19.960, -12.480], melhoria=49.97%, p=0.0647
+- flow_rate: IA=23.700, Trad=16.800, análise=paired, pares=5, Δ=6.900, CI95(Δ)=[5.598, 8.100], melhoria=41.07%, p=0.0647
+- co2_emissions: IA=137.132, Trad=188.492, análise=paired, pares=5, Δ=-51.360, CI95(Δ)=[-85.624, -17.474], melhoria=27.25%, p=0.0647
+- emergency_response_time: IA=1.860, Trad=32.580, análise=paired, pares=5, Δ=-30.720, CI95(Δ)=[-32.600, -28.700], melhoria=94.29%, p=0.0647
 
 ### Cenário: normal
-- avg_wait_time: IA=21.280, Trad=34.280, Δ=-13.000, CI95(Δ)=[-16.800, -8.780], melhoria=37.92%, p=0.0045
-- flow_rate: IA=19.700, Trad=13.100, Δ=6.600, CI95(Δ)=[6.200, 7.100], melhoria=50.38%, p=0.0067
-- co2_emissions: IA=144.538, Trad=129.758, Δ=14.780, CI95(Δ)=[-6.871, 38.640], melhoria=-11.39%, p=0.2874
-- emergency_response_time: IA=1.840, Trad=19.320, Δ=-17.480, CI95(Δ)=[-34.380, -0.700], melhoria=90.48%, p=0.1560
+- avg_wait_time: IA=19.240, Trad=29.520, análise=paired, pares=5, Δ=-10.280, CI95(Δ)=[-12.820, -7.740], melhoria=34.82%, p=0.0647
+- flow_rate: IA=19.200, Trad=13.700, análise=paired, pares=5, Δ=5.500, CI95(Δ)=[4.600, 6.200], melhoria=40.15%, p=0.0647
+- co2_emissions: IA=129.176, Trad=143.750, análise=paired, pares=5, Δ=-14.574, CI95(Δ)=[-37.444, 3.398], melhoria=10.14%, p=0.4429
+- emergency_response_time: IA=1.920, Trad=24.960, análise=paired, pares=5, Δ=-23.040, CI95(Δ)=[-39.280, -7.280], melhoria=92.31%, p=0.1265
 
 ### Cenário: rush_hour
-- avg_wait_time: IA=26.080, Trad=39.400, Δ=-13.320, CI95(Δ)=[-15.941, -10.580], melhoria=33.81%, p=0.0067
-- flow_rate: IA=50.900, Trad=30.300, Δ=20.600, CI95(Δ)=[16.900, 25.500], melhoria=67.99%, p=0.0067
-- co2_emissions: IA=453.706, Trad=407.392, Δ=46.314, CI95(Δ)=[2.682, 85.032], melhoria=-11.37%, p=0.0902
-- emergency_response_time: IA=1.780, Trad=44.400, Δ=-42.620, CI95(Δ)=[-48.341, -36.999], melhoria=95.99%, p=0.0067
+- avg_wait_time: IA=25.720, Trad=39.520, análise=paired, pares=5, Δ=-13.800, CI95(Δ)=[-16.420, -11.600], melhoria=34.92%, p=0.0647
+- flow_rate: IA=49.900, Trad=28.900, análise=paired, pares=5, Δ=21.000, CI95(Δ)=[19.200, 22.800], melhoria=72.66%, p=0.0647
+- co2_emissions: IA=476.892, Trad=415.130, análise=paired, pares=5, Δ=61.762, CI95(Δ)=[22.178, 92.018], melhoria=-14.88%, p=0.1305
+- emergency_response_time: IA=1.740, Trad=40.060, análise=paired, pares=5, Δ=-38.320, CI95(Δ)=[-60.840, -15.567], melhoria=95.66%, p=0.1217
 
 ## Nota Metodológica
 - Intervalos de confiança de cada modo: aproximação normal (95%).
-- Intervalo para diferença IA-Tradicional: bootstrap (95%).
-- Significância: teste de permutação bilateral.
+- Diferença IA-Tradicional: bootstrap e teste de permutação.
+- Sempre que possível, comparação emparelhada por cenário/repetição/seed.

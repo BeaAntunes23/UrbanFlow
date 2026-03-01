@@ -65,7 +65,7 @@ Além disso, mantém-se a infraestrutura FastAPI + MongoDB + CORS.
 ## 3) O que falta para fechar com qualidade académica elevada
 
 ### 3.1 Validação Experimental Formal
-Estado: **Implementado (pipeline base)**
+Estado: **Implementado (pipeline robusto e emparelhado)**
 
 Foi implementado pipeline reproduzível com:
 - Runner automático de campanha experimental: `Frontend/scripts/run-experiments.cjs`;
@@ -77,8 +77,13 @@ Também foi implementada análise estatística em:
 - `Backend/experiments/analyze_campaign.py`;
 - geração de tabelas de resumo e comparação;
 - CI95 para médias;
-- teste de permutação para diferença IA vs tradicional;
+- teste de permutação para diferença IA vs tradicional (com suporte a análise emparelhada);
 - relatório em Markdown para anexar ao documento académico.
+
+Melhorias metodológicas recentes:
+- desenho experimental emparelhado por cenário/repetição/seed (IA vs Tradicional em condições idênticas);
+- metadados de campanha em `latest.json` (ID da campanha, definição de pares, número esperado de corridas);
+- comparação estatística com deteção automática de pares (`analysis_type=paired` quando disponível).
 
 ### 3.2 Módulo de Aprendizagem (RL)
 Estado: **Parcial / não explícito como RL formal**
@@ -86,12 +91,16 @@ Estado: **Parcial / não explícito como RL formal**
 Atualmente existe otimização heurística no modo IA (ajuste de verde por filas e prioridade de emergência), mas não há ainda um agente de Reinforcement Learning formalmente treinado e avaliado.
 
 ### 3.3 Gestão de Dados de Experiência
-Estado: **Parcial**
+Estado: **Implementado (núcleo de campanha)**
 
-Já existe persistência de snapshots unitários, mas falta:
-- Estruturar coleções para campanhas experimentais;
-- Guardar metadados de execução (seed, versão, cenário, parâmetros);
-- Script de agregação e geração de tabelas/figuras para relatório.
+Existe persistência de snapshots unitários e também estrutura de campanha experimental com:
+- identificação da campanha (`campaign_id`);
+- pares de comparação (`pair_id`) e repetição;
+- metadados de execução (seed, cenário, modo, duração, dt, grelha);
+- scripts de agregação, análise estatística e geração de figuras para relatório.
+
+Melhoria futura recomendada (não bloqueante):
+- persistir campanhas também em coleção dedicada no MongoDB para histórico centralizado multi-execução.
 
 ### 3.4 Documentação Científica
 Estado: **Em falta**
@@ -123,6 +132,7 @@ No Frontend:
 
 Na análise (Backend):
 - `python experiments/analyze_campaign.py`
+- `python experiments/run_full_pipeline.py --sync-frontend-figures`
 
 Saídas esperadas:
 - `Frontend/experiments/results/latest.csv`
