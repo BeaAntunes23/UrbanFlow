@@ -14,6 +14,12 @@ const cardStyle = {
   color: '#fafafa',
 };
 
+const legendItems = [
+  { label: 'Ligeiro', color: '#60a5fa' },
+  { label: 'Pesado', color: '#f59e0b' },
+  { label: 'Emergência', color: '#ef4444' },
+];
+
 const toCsv = (rows) => {
   const headers = [
     'timestamp',
@@ -269,6 +275,31 @@ export const MetricsWidget = ({ metrics, comparison, config, sidebar = false, on
             >
               Guardar
             </button>
+          </div>
+        </div>
+      )}
+
+      {sidebar && (
+        <div style={cardStyle}>
+          <div style={{ fontSize: 12, color: '#a1a1aa', marginBottom: 8 }}>Legenda de Veículos</div>
+          <div style={{ display: 'grid', gap: 6 }}>
+            {legendItems.map((item) => (
+              <div
+                key={item.label}
+                style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#e4e4e7' }}
+              >
+                <span
+                  style={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: 2,
+                    background: item.color,
+                    display: 'inline-block',
+                  }}
+                />
+                <span>{item.label}</span>
+              </div>
+            ))}
           </div>
         </div>
       )}
