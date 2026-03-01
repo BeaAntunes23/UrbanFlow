@@ -51,6 +51,7 @@ function App() {
   const [activeRules, setActiveRules] = React.useState([]);
   const [metrics, setMetrics] = React.useState(INITIAL_METRICS);
   const [comparison, setComparison] = React.useState(INITIAL_METRICS);
+  const [metricHistory, setMetricHistory] = React.useState([]);
   const [showFigures, setShowFigures] = React.useState(false);
   const [figuresVersion, setFiguresVersion] = React.useState(Date.now());
   const engineRef = React.useRef(null);
@@ -74,8 +75,19 @@ function App() {
     const timer = window.setInterval(() => {
       const engine = engineRef.current;
       if (!engine) return;
-      setMetrics(engine.getMetrics());
+      const currentMetrics = engine.getMetrics();
+      setMetrics(currentMetrics);
       setComparison(engine.getComparisonMetrics());
+      setMetricHistory((prev) => {
+        const nextPoint = {
+          t: Date.now(),
+          avgWaitTime: Number(currentMetrics.avgWaitTime) || 0,
+          flowRate: Number(currentMetrics.flowRate) || 0,
+          totalCollisions: Number(currentMetrics.totalCollisions) || 0,
+        };
+        const next = [...prev, nextPoint];
+        return next.length > 120 ? next.slice(next.length - 120) : next;
+      });
     }, 300);
 
     return () => window.clearInterval(timer);
@@ -101,6 +113,7 @@ function App() {
             metrics={metrics}
             comparison={comparison}
             config={config}
+            metricHistory={metricHistory}
             onOpenFigures={() => setShowFigures(true)}
             sidebar
           />

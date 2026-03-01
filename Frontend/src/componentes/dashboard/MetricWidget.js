@@ -20,6 +20,55 @@ const legendItems = [
   { label: 'Emergência', color: '#ef4444' },
 ];
 
+const Sparkline = ({ data, color, height = 46 }) => {
+  const width = 248;
+  if (!data || data.length < 2) {
+    return (
+      <div style={{ height, color: '#71717a', fontSize: 11, display: 'flex', alignItems: 'center' }}>
+        A recolher dados...
+      </div>
+    );
+  }
+
+  const minValue = Math.min(...data);
+  const maxValue = Math.max(...data);
+  const range = Math.max(maxValue - minValue, 1);
+
+  const points = data
+    .map((value, index) => {
+      const x = (index / (data.length - 1)) * width;
+      const y = height - ((value - minValue) / range) * (height - 4) - 2;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(' ');
+
+  const baselineY = height - ((0 - minValue) / range) * (height - 4) - 2;
+  const hasBaseline = minValue <= 0 && maxValue >= 0;
+
+  return (
+    <svg width="100%" height={height} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
+      {hasBaseline && (
+        <line
+          x1="0"
+          y1={baselineY}
+          x2={width}
+          y2={baselineY}
+          stroke="rgba(113,113,122,0.35)"
+          strokeWidth="1"
+        />
+      )}
+      <polyline
+        fill="none"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        points={points}
+      />
+    </svg>
+  );
+};
+
 const toCsv = (rows) => {
   const headers = [
     'timestamp',
@@ -51,7 +100,14 @@ const toCsv = (rows) => {
   return lines.join('\n');
 };
 
-export const MetricsWidget = ({ metrics, comparison, config, sidebar = false, onOpenFigures }) => {
+export const MetricsWidget = ({
+  metrics,
+  comparison,
+  config,
+  metricHistory = [],
+  sidebar = false,
+  onOpenFigures,
+}) => {
   const postWithFallback = async (endpoint, body, options = {}) => {
     try {
       return await axios.post(`${API}${endpoint}`, body, { timeout: 8000, ...options });
@@ -191,6 +247,27 @@ export const MetricsWidget = ({ metrics, comparison, config, sidebar = false, on
     },
   ];
 
+  const dynamicCharts = [
+    {
+      title: 'Espera (s)',
+      color: '#60a5fa',
+      values: metricHistory.map((item) => item.avgWaitTime),
+      currentValue: `${metrics.avgWaitTime}s`,
+    },
+    {
+      title: 'Fluxo (veíc/min)',
+      color: '#22c55e',
+      values: metricHistory.map((item) => item.flowRate),
+      currentValue: `${metrics.flowRate}`,
+    },
+    {
+      title: 'Colisões',
+      color: '#ef4444',
+      values: metricHistory.map((item) => item.totalCollisions),
+      currentValue: `${metrics.totalCollisions ?? 0}`,
+    },
+  ];
+
   const containerStyle = sidebar
     ? {
         width: 300,
@@ -298,6 +375,23 @@ export const MetricsWidget = ({ metrics, comparison, config, sidebar = false, on
                   }}
                 />
                 <span>{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {sidebar && (
+        <div style={cardStyle}>
+          <div style={{ fontSize: 12, color: '#a1a1aa', marginBottom: 8 }}>Gráficos Dinâmicos (tempo real)</div>
+          <div style={{ display: 'grid', gap: 8 }}>
+            {dynamicCharts.map((chart) => (
+              <div key={chart.title} style={{ border: '1px solid #27272a', borderRadius: 6, padding: '6px 8px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                  <span style={{ fontSize: 11, color: '#d4d4d8' }}>{chart.title}</span>
+                  <strong style={{ fontSize: 12, color: '#f4f4f5' }}>{chart.currentValue}</strong>
+                </div>
+                <Sparkline data={chart.values} color={chart.color} />
               </div>
             ))}
           </div>
