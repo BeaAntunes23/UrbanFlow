@@ -10,9 +10,11 @@ METRIC_NAMES = {
     "flow_rate": "taxa de fluxo",
     "co2_emissions": "emissões de CO2",
     "emergency_response_time": "tempo de resposta de emergência",
+    "total_collisions": "colisões totais",
+    "collision_avoided": "colisões evitadas",
 }
 
-LOWER_IS_BETTER = {"avg_wait_time", "co2_emissions", "emergency_response_time"}
+LOWER_IS_BETTER = {"avg_wait_time", "co2_emissions", "emergency_response_time", "total_collisions"}
 
 
 def interpretation(metric: str, improvement: float) -> str:
@@ -41,6 +43,8 @@ def build_chapter(comparison_df: pd.DataFrame, source_csv: Path) -> str:
     lines.append("- taxa de fluxo;")
     lines.append("- emissões de CO2;")
     lines.append("- tempo de resposta de emergência.")
+    lines.append("- colisões totais;")
+    lines.append("- colisões evitadas.")
     lines.append("")
     lines.append("Para a inferência estatística foram usados:")
     lines.append("- intervalos de confiança (95%);")

@@ -12,6 +12,8 @@ METRIC_LABELS = {
     "flow_rate": "Taxa de fluxo (veíc/min)",
     "co2_emissions": "Emissões de CO2 (kg)",
     "emergency_response_time": "Tempo de resposta emergência (s)",
+    "total_collisions": "Colisões totais (contagem)",
+    "collision_avoided": "Colisões evitadas (contagem)",
 }
 
 PLOT_METRICS = list(METRIC_LABELS.keys())

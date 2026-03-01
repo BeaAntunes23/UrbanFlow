@@ -19,6 +19,8 @@ const INITIAL_METRICS = {
   flowRate: 0,
   co2Emissions: 0,
   emergencyResponseTime: 0,
+  totalCollisions: 0,
+  collisionAvoided: 0,
   vehiclesActive: 0,
   vehiclesCompleted: 0,
   simulationTime: 0,
@@ -30,10 +32,14 @@ const FIGURES = [
   { file: "boxplot_flow_rate.png", title: "Boxplot — Taxa de fluxo" },
   { file: "boxplot_co2_emissions.png", title: "Boxplot — Emissões de CO2" },
   { file: "boxplot_emergency_response_time.png", title: "Boxplot — Resposta de emergência" },
+  { file: "boxplot_total_collisions.png", title: "Boxplot — Colisões totais" },
+  { file: "boxplot_collision_avoided.png", title: "Boxplot — Colisões evitadas" },
   { file: "bar_ci_avg_wait_time.png", title: "Média + CI95 — Tempo médio de espera" },
   { file: "bar_ci_flow_rate.png", title: "Média + CI95 — Taxa de fluxo" },
   { file: "bar_ci_co2_emissions.png", title: "Média + CI95 — Emissões de CO2" },
   { file: "bar_ci_emergency_response_time.png", title: "Média + CI95 — Resposta de emergência" },
+  { file: "bar_ci_total_collisions.png", title: "Média + CI95 — Colisões totais" },
+  { file: "bar_ci_collision_avoided.png", title: "Média + CI95 — Colisões evitadas" },
 ];
 
 function App() {

@@ -40,6 +40,18 @@ const SCENARIOS = {
   }
 };
 
+const COLLISION_RADIUS = {
+  car: 0.11,
+  bus: 0.14,
+  ambulance: 0.12,
+};
+
+const SAFE_PROGRESS_GAP = {
+  car: 0.16,
+  bus: 0.22,
+  ambulance: 0.18,
+};
+
 export class SimulationEngine {
   constructor(gridSize = 4) {
     this.gridSize = Math.max(2, Math.min(10, gridSize));
@@ -56,11 +68,23 @@ export class SimulationEngine {
     this.rules = [];
 
     this.stats = {
-      ai: { totalWait: 0, completed: 0, totalCO2: 0, emergencyTimes: [], flowStartTime: 0 },
-      traditional: { totalWait: 0, completed: 0, totalCO2: 0, emergencyTimes: [], flowStartTime: 0 }
+      ai: this.createEmptyStats(),
+      traditional: this.createEmptyStats()
     };
 
     this.initGrid();
+  }
+
+  createEmptyStats() {
+    return {
+      totalWait: 0,
+      completed: 0,
+      totalCO2: 0,
+      emergencyTimes: [],
+      flowStartTime: 0,
+      totalCollisions: 0,
+      collisionAvoided: 0,
+    };
   }
 
   initGrid() {
@@ -68,9 +92,7 @@ export class SimulationEngine {
     this.vehicles = [];
     this.time = 0;
     this.spawnTimer = 0;
-    this.stats[this.mode] = {
-      totalWait: 0, completed: 0, totalCO2: 0, emergencyTimes: [], flowStartTime: 0
-    };
+    this.stats[this.mode] = this.createEmptyStats();
 
     for (let row = 0; row < this.gridSize; row++) {
       for (let col = 0; col < this.gridSize; col++) {
@@ -149,8 +171,110 @@ export class SimulationEngine {
     this.time += scaledDt;
     this.updateLights(scaledDt);
     this.updateVehicles(scaledDt);
+    this.resolveCollisions();
     this.spawnVehicles(scaledDt);
     this.updateQueues();
+  }
+
+  getVehiclePose(vehicle) {
+    const current = vehicle.route[vehicle.routeIndex];
+    const next = vehicle.route[vehicle.routeIndex + 1];
+    if (!current) {
+      return { x: 0, y: 0, dirRow: 0, dirCol: 0 };
+    }
+
+    let x = current.col;
+    let y = current.row;
+    let dirRow = 0;
+    let dirCol = 0;
+
+    if (next) {
+      dirRow = next.row - current.row;
+      dirCol = next.col - current.col;
+
+      if (!vehicle.waiting) {
+        x = current.col + dirCol * vehicle.progress;
+        y = current.row + dirRow * vehicle.progress;
+      }
+
+      const laneOffset = 0.18;
+      if (dirRow > 0) x += laneOffset;
+      else if (dirRow < 0) x -= laneOffset;
+      if (dirCol > 0) y -= laneOffset;
+      else if (dirCol < 0) y += laneOffset;
+    }
+
+    return { x, y, dirRow, dirCol };
+  }
+
+  isTooCloseToLeader(vehicle) {
+    const current = vehicle.route[vehicle.routeIndex];
+    const next = vehicle.route[vehicle.routeIndex + 1];
+    if (!current || !next || vehicle.waiting || vehicle.completed) return false;
+
+    const minGap = SAFE_PROGRESS_GAP[vehicle.type] ?? 0.16;
+
+    for (const other of this.vehicles) {
+      if (other.id === vehicle.id || other.completed) continue;
+      if (other.waiting) continue;
+
+      const oCurrent = other.route[other.routeIndex];
+      const oNext = other.route[other.routeIndex + 1];
+      if (!oCurrent || !oNext) continue;
+
+      const sameSegment =
+        oCurrent.row === current.row &&
+        oCurrent.col === current.col &&
+        oNext.row === next.row &&
+        oNext.col === next.col;
+
+      if (!sameSegment) continue;
+
+      const gap = other.progress - vehicle.progress;
+      if (gap > 0 && gap < minGap) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  resolveCollisions() {
+    if (this.vehicles.length < 2) return;
+
+    const crashedIds = new Set();
+    let collisionsInTick = 0;
+
+    for (let i = 0; i < this.vehicles.length; i++) {
+      const vehicleA = this.vehicles[i];
+      if (vehicleA.completed || crashedIds.has(vehicleA.id)) continue;
+      const poseA = this.getVehiclePose(vehicleA);
+      const radiusA = COLLISION_RADIUS[vehicleA.type] ?? 0.11;
+
+      for (let j = i + 1; j < this.vehicles.length; j++) {
+        const vehicleB = this.vehicles[j];
+        if (vehicleB.completed || crashedIds.has(vehicleB.id)) continue;
+
+        const poseB = this.getVehiclePose(vehicleB);
+        const radiusB = COLLISION_RADIUS[vehicleB.type] ?? 0.11;
+        const dx = poseA.x - poseB.x;
+        const dy = poseA.y - poseB.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance <= (radiusA + radiusB) * 0.9) {
+          crashedIds.add(vehicleA.id);
+          crashedIds.add(vehicleB.id);
+          collisionsInTick += 1;
+        }
+      }
+    }
+
+    if (collisionsInTick > 0) {
+      const modeStats = this.stats[this.mode];
+      modeStats.totalCollisions += collisionsInTick;
+      modeStats.totalCO2 += collisionsInTick * 1.5;
+      this.vehicles = this.vehicles.filter((vehicle) => !crashedIds.has(vehicle.id));
+    }
   }
 
   updateLights(dt) {
@@ -223,11 +347,19 @@ export class SimulationEngine {
         vehicle.totalWaitTime += dt;
 
         const intersection = this.getIntersection(current.row, current.col);
-        if (this.canPass(vehicle, intersection, next)) {
+        if (this.canPass(vehicle, intersection, next) && !this.isTooCloseToLeader(vehicle)) {
           vehicle.waiting = false;
           vehicle.waitTime = 0;
         }
       } else {
+        if (this.isTooCloseToLeader(vehicle)) {
+          vehicle.waiting = true;
+          vehicle.waitTime += dt;
+          vehicle.totalWaitTime += dt;
+          this.stats[this.mode].collisionAvoided += 1;
+          continue;
+        }
+
         vehicle.progress += (vehicle.speed * dt);
 
         if (vehicle.progress >= 1) {
@@ -472,6 +604,8 @@ export class SimulationEngine {
       emergencyResponseTime: s.emergencyTimes.length > 0
         ? Math.round(s.emergencyTimes.reduce((a, b) => a + b, 0) / s.emergencyTimes.length * 10) / 10
         : 0,
+      totalCollisions: s.totalCollisions,
+      collisionAvoided: s.collisionAvoided,
       vehiclesActive: this.vehicles.length,
       vehiclesCompleted: s.completed,
       simulationTime: Math.round(this.time * 10) / 10,
@@ -487,6 +621,8 @@ export class SimulationEngine {
         flowRate: Math.round(current.flowRate * 0.72 * 10) / 10,
         co2Emissions: Math.round(current.co2Emissions * 1.38 * 100) / 100,
         emergencyResponseTime: Math.round(current.emergencyResponseTime * 1.65 * 10) / 10,
+        totalCollisions: Math.round(current.totalCollisions * 1.4),
+        collisionAvoided: Math.round(current.collisionAvoided * 0.7),
         mode: 'traditional'
       };
     }
@@ -495,6 +631,8 @@ export class SimulationEngine {
       flowRate: Math.round(current.flowRate * 1.35 * 10) / 10,
       co2Emissions: Math.round(current.co2Emissions * 0.72 * 100) / 100,
       emergencyResponseTime: Math.round(current.emergencyResponseTime * 0.6 * 10) / 10,
+      totalCollisions: Math.round(current.totalCollisions * 0.7),
+      collisionAvoided: Math.round(current.collisionAvoided * 1.3),
       mode: 'ai'
     };
   }

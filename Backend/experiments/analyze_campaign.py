@@ -13,9 +13,11 @@ METRICS = [
     "flow_rate",
     "co2_emissions",
     "emergency_response_time",
+    "total_collisions",
+    "collision_avoided",
 ]
 
-LOWER_IS_BETTER = {"avg_wait_time", "co2_emissions", "emergency_response_time"}
+LOWER_IS_BETTER = {"avg_wait_time", "co2_emissions", "emergency_response_time", "total_collisions"}
 
 
 def ci95_normal(series: pd.Series) -> tuple[float, float]:

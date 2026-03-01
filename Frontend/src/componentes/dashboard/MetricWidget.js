@@ -152,6 +152,16 @@ export const MetricsWidget = ({ metrics, comparison, config }) => {
       value: `${metrics.emergencyResponseTime}s`,
       comparisonValue: comparison ? `${comparison.emergencyResponseTime}s` : '-',
     },
+    {
+      title: 'Colisões Totais',
+      value: `${metrics.totalCollisions ?? 0}`,
+      comparisonValue: comparison ? `${comparison.totalCollisions ?? 0}` : '-',
+    },
+    {
+      title: 'Colisões Evitadas',
+      value: `${metrics.collisionAvoided ?? 0}`,
+      comparisonValue: comparison ? `${comparison.collisionAvoided ?? 0}` : '-',
+    },
   ];
 
   return (

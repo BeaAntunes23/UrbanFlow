@@ -6,77 +6,101 @@ Fonte de dados: `C:\Users\Lenovo\OneDrive - UTAD\LEI\3º ano\2º semestre\Labora
 
 ### Cenário: accident
 - Modo: **ai** (n=5)
-  - avg_wait_time: mean=20.560, CI95=[18.387, 22.733]
-  - flow_rate: mean=19.500, CI95=[17.615, 21.385]
-  - co2_emissions: mean=135.602, CI95=[112.468, 158.736]
-  - emergency_response_time: mean=3.420, CI95=[2.871, 3.969]
+  - avg_wait_time: mean=9.120, CI95=[6.136, 12.104]
+  - flow_rate: mean=5.300, CI95=[4.391, 6.209]
+  - co2_emissions: mean=49.830, CI95=[45.720, 53.940]
+  - emergency_response_time: mean=2.520, CI95=[2.254, 2.786]
+  - total_collisions: mean=22.800, CI95=[21.114, 24.486]
+  - collision_avoided: mean=0.000, CI95=[0.000, 0.000]
 - Modo: **traditional** (n=5)
-  - avg_wait_time: mean=39.940, CI95=[35.552, 44.328]
-  - flow_rate: mean=8.700, CI95=[7.691, 9.709]
-  - co2_emissions: mean=111.972, CI95=[89.192, 134.752]
-  - emergency_response_time: mean=40.980, CI95=[17.971, 63.989]
+  - avg_wait_time: mean=23.980, CI95=[13.575, 34.385]
+  - flow_rate: mean=1.500, CI95=[0.963, 2.037]
+  - co2_emissions: mean=49.988, CI95=[44.044, 55.932]
+  - emergency_response_time: mean=17.880, CI95=[-17.165, 52.925]
+  - total_collisions: mean=25.000, CI95=[24.123, 25.877]
+  - collision_avoided: mean=0.000, CI95=[0.000, 0.000]
 
 ### Cenário: emergency
 - Modo: **ai** (n=5)
-  - avg_wait_time: mean=16.240, CI95=[12.176, 20.304]
-  - flow_rate: mean=23.700, CI95=[22.557, 24.843]
-  - co2_emissions: mean=137.132, CI95=[104.980, 169.284]
-  - emergency_response_time: mean=1.860, CI95=[1.782, 1.938]
+  - avg_wait_time: mean=7.320, CI95=[6.048, 8.592]
+  - flow_rate: mean=10.100, CI95=[8.336, 11.864]
+  - co2_emissions: mean=56.582, CI95=[50.751, 62.413]
+  - emergency_response_time: mean=1.840, CI95=[1.722, 1.958]
+  - total_collisions: mean=17.200, CI95=[15.107, 19.293]
+  - collision_avoided: mean=0.000, CI95=[0.000, 0.000]
 - Modo: **traditional** (n=5)
-  - avg_wait_time: mean=32.460, CI95=[30.715, 34.205]
-  - flow_rate: mean=16.800, CI95=[15.294, 18.306]
-  - co2_emissions: mean=188.492, CI95=[160.823, 216.161]
-  - emergency_response_time: mean=32.580, CI95=[30.397, 34.763]
+  - avg_wait_time: mean=19.320, CI95=[15.618, 23.022]
+  - flow_rate: mean=4.400, CI95=[3.071, 5.729]
+  - co2_emissions: mean=61.530, CI95=[53.512, 69.548]
+  - emergency_response_time: mean=15.620, CI95=[6.173, 25.067]
+  - total_collisions: mean=21.200, CI95=[19.107, 23.293]
+  - collision_avoided: mean=0.000, CI95=[0.000, 0.000]
 
 ### Cenário: normal
 - Modo: **ai** (n=5)
-  - avg_wait_time: mean=19.240, CI95=[17.138, 21.342]
-  - flow_rate: mean=19.200, CI95=[18.960, 19.440]
-  - co2_emissions: mean=129.176, CI95=[107.963, 150.389]
-  - emergency_response_time: mean=1.920, CI95=[1.608, 2.232]
+  - avg_wait_time: mean=11.900, CI95=[10.073, 13.727]
+  - flow_rate: mean=7.900, CI95=[7.057, 8.743]
+  - co2_emissions: mean=53.936, CI95=[49.535, 58.337]
+  - emergency_response_time: mean=1.900, CI95=[1.609, 2.191]
+  - total_collisions: mean=14.600, CI95=[13.816, 15.384]
+  - collision_avoided: mean=0.000, CI95=[0.000, 0.000]
 - Modo: **traditional** (n=5)
-  - avg_wait_time: mean=29.520, CI95=[25.611, 33.429]
-  - flow_rate: mean=13.700, CI95=[12.691, 14.709]
-  - co2_emissions: mean=143.750, CI95=[110.567, 176.933]
-  - emergency_response_time: mean=24.960, CI95=[7.074, 42.846]
+  - avg_wait_time: mean=21.720, CI95=[14.859, 28.581]
+  - flow_rate: mean=3.700, CI95=[2.163, 5.237]
+  - co2_emissions: mean=48.204, CI95=[40.139, 56.269]
+  - emergency_response_time: mean=14.740, CI95=[-0.459, 29.939]
+  - total_collisions: mean=17.200, CI95=[15.300, 19.100]
+  - collision_avoided: mean=0.000, CI95=[0.000, 0.000]
 
 ### Cenário: rush_hour
 - Modo: **ai** (n=5)
-  - avg_wait_time: mean=25.720, CI95=[24.633, 26.807]
-  - flow_rate: mean=49.900, CI95=[49.533, 50.267]
-  - co2_emissions: mean=476.892, CI95=[427.146, 526.638]
-  - emergency_response_time: mean=1.740, CI95=[1.558, 1.922]
+  - avg_wait_time: mean=5.700, CI95=[4.855, 6.545]
+  - flow_rate: mean=12.100, CI95=[11.054, 13.146]
+  - co2_emissions: mean=152.774, CI95=[147.464, 158.084]
+  - emergency_response_time: mean=1.680, CI95=[1.490, 1.870]
+  - total_collisions: mean=83.800, CI95=[82.657, 84.943]
+  - collision_avoided: mean=0.200, CI95=[-0.192, 0.592]
 - Modo: **traditional** (n=5)
-  - avg_wait_time: mean=39.520, CI95=[36.711, 42.329]
-  - flow_rate: mean=28.900, CI95=[27.163, 30.637]
-  - co2_emissions: mean=415.130, CI95=[389.887, 440.373]
-  - emergency_response_time: mean=40.060, CI95=[15.568, 64.552]
+  - avg_wait_time: mean=8.900, CI95=[8.048, 9.752]
+  - flow_rate: mean=4.600, CI95=[3.345, 5.855]
+  - co2_emissions: mean=149.832, CI95=[146.208, 153.456]
+  - emergency_response_time: mean=10.440, CI95=[4.075, 16.805]
+  - total_collisions: mean=90.000, CI95=[88.926, 91.074]
+  - collision_avoided: mean=0.400, CI95=[-0.080, 0.880]
 
 ## Comparação IA vs Tradicional
 
 ### Cenário: accident
-- avg_wait_time: IA=20.560, Trad=39.940, análise=paired, pares=5, Δ=-19.380, CI95(Δ)=[-24.580, -15.720], melhoria=48.52%, p=0.0647
-- flow_rate: IA=19.500, Trad=8.700, análise=paired, pares=5, Δ=10.800, CI95(Δ)=[8.600, 13.000], melhoria=124.14%, p=0.0647
-- co2_emissions: IA=135.602, Trad=111.972, análise=paired, pares=5, Δ=23.630, CI95(Δ)=[6.520, 40.138], melhoria=-21.10%, p=0.1265
-- emergency_response_time: IA=3.420, Trad=40.980, análise=paired, pares=5, Δ=-37.560, CI95(Δ)=[-56.400, -15.140], melhoria=91.65%, p=0.1217
+- avg_wait_time: IA=9.120, Trad=23.980, análise=paired, pares=5, Δ=-14.860, CI95(Δ)=[-21.963, -3.460], melhoria=61.97%, p=0.1305
+- flow_rate: IA=5.300, Trad=1.500, análise=paired, pares=5, Δ=3.800, CI95(Δ)=[2.900, 4.400], melhoria=253.33%, p=0.0647
+- co2_emissions: IA=49.830, Trad=49.988, análise=paired, pares=5, Δ=-0.158, CI95(Δ)=[-7.030, 8.214], melhoria=0.32%, p=0.9368
+- emergency_response_time: IA=2.520, Trad=17.880, análise=paired, pares=5, Δ=-15.360, CI95(Δ)=[-51.340, 2.760], melhoria=85.91%, p=1.0000
+- total_collisions: IA=22.800, Trad=25.000, análise=paired, pares=5, Δ=-2.200, CI95(Δ)=[-4.200, -0.800], melhoria=8.80%, p=0.1265
+- collision_avoided: IA=0.000, Trad=0.000, análise=paired, pares=5, Δ=0.000, CI95(Δ)=[0.000, 0.000], melhoria=0.00%, p=1.0000
 
 ### Cenário: emergency
-- avg_wait_time: IA=16.240, Trad=32.460, análise=paired, pares=5, Δ=-16.220, CI95(Δ)=[-19.960, -12.480], melhoria=49.97%, p=0.0647
-- flow_rate: IA=23.700, Trad=16.800, análise=paired, pares=5, Δ=6.900, CI95(Δ)=[5.598, 8.100], melhoria=41.07%, p=0.0647
-- co2_emissions: IA=137.132, Trad=188.492, análise=paired, pares=5, Δ=-51.360, CI95(Δ)=[-85.624, -17.474], melhoria=27.25%, p=0.0647
-- emergency_response_time: IA=1.860, Trad=32.580, análise=paired, pares=5, Δ=-30.720, CI95(Δ)=[-32.600, -28.700], melhoria=94.29%, p=0.0647
+- avg_wait_time: IA=7.320, Trad=19.320, análise=paired, pares=5, Δ=-12.000, CI95(Δ)=[-16.900, -8.440], melhoria=62.11%, p=0.0647
+- flow_rate: IA=10.100, Trad=4.400, análise=paired, pares=5, Δ=5.700, CI95(Δ)=[3.800, 7.100], melhoria=129.55%, p=0.0647
+- co2_emissions: IA=56.582, Trad=61.530, análise=paired, pares=5, Δ=-4.948, CI95(Δ)=[-12.738, 2.790], melhoria=8.04%, p=0.4411
+- emergency_response_time: IA=1.840, Trad=15.620, análise=paired, pares=5, Δ=-13.780, CI95(Δ)=[-21.711, -5.409], melhoria=88.22%, p=0.1277
+- total_collisions: IA=17.200, Trad=21.200, análise=paired, pares=5, Δ=-4.000, CI95(Δ)=[-5.800, -1.400], melhoria=18.87%, p=0.1265
+- collision_avoided: IA=0.000, Trad=0.000, análise=paired, pares=5, Δ=0.000, CI95(Δ)=[0.000, 0.000], melhoria=0.00%, p=1.0000
 
 ### Cenário: normal
-- avg_wait_time: IA=19.240, Trad=29.520, análise=paired, pares=5, Δ=-10.280, CI95(Δ)=[-12.820, -7.740], melhoria=34.82%, p=0.0647
-- flow_rate: IA=19.200, Trad=13.700, análise=paired, pares=5, Δ=5.500, CI95(Δ)=[4.600, 6.200], melhoria=40.15%, p=0.0647
-- co2_emissions: IA=129.176, Trad=143.750, análise=paired, pares=5, Δ=-14.574, CI95(Δ)=[-37.444, 3.398], melhoria=10.14%, p=0.4429
-- emergency_response_time: IA=1.920, Trad=24.960, análise=paired, pares=5, Δ=-23.040, CI95(Δ)=[-39.280, -7.280], melhoria=92.31%, p=0.1265
+- avg_wait_time: IA=11.900, Trad=21.720, análise=paired, pares=5, Δ=-9.820, CI95(Δ)=[-13.520, -4.760], melhoria=45.21%, p=0.1277
+- flow_rate: IA=7.900, Trad=3.700, análise=paired, pares=5, Δ=4.200, CI95(Δ)=[3.300, 5.400], melhoria=113.51%, p=0.0647
+- co2_emissions: IA=53.936, Trad=48.204, análise=paired, pares=5, Δ=5.732, CI95(Δ)=[0.870, 10.416], melhoria=-11.89%, p=0.1850
+- emergency_response_time: IA=1.900, Trad=14.740, análise=paired, pares=5, Δ=-12.840, CI95(Δ)=[-27.320, -0.680], melhoria=87.11%, p=0.2562
+- total_collisions: IA=14.600, Trad=17.200, análise=paired, pares=5, Δ=-2.600, CI95(Δ)=[-4.400, -1.000], melhoria=15.12%, p=0.1217
+- collision_avoided: IA=0.000, Trad=0.000, análise=paired, pares=5, Δ=0.000, CI95(Δ)=[0.000, 0.000], melhoria=0.00%, p=1.0000
 
 ### Cenário: rush_hour
-- avg_wait_time: IA=25.720, Trad=39.520, análise=paired, pares=5, Δ=-13.800, CI95(Δ)=[-16.420, -11.600], melhoria=34.92%, p=0.0647
-- flow_rate: IA=49.900, Trad=28.900, análise=paired, pares=5, Δ=21.000, CI95(Δ)=[19.200, 22.800], melhoria=72.66%, p=0.0647
-- co2_emissions: IA=476.892, Trad=415.130, análise=paired, pares=5, Δ=61.762, CI95(Δ)=[22.178, 92.018], melhoria=-14.88%, p=0.1305
-- emergency_response_time: IA=1.740, Trad=40.060, análise=paired, pares=5, Δ=-38.320, CI95(Δ)=[-60.840, -15.567], melhoria=95.66%, p=0.1217
+- avg_wait_time: IA=5.700, Trad=8.900, análise=paired, pares=5, Δ=-3.200, CI95(Δ)=[-4.460, -1.940], melhoria=35.96%, p=0.0647
+- flow_rate: IA=12.100, Trad=4.600, análise=paired, pares=5, Δ=7.500, CI95(Δ)=[5.500, 9.400], melhoria=163.04%, p=0.0647
+- co2_emissions: IA=152.774, Trad=149.832, análise=paired, pares=5, Δ=2.942, CI95(Δ)=[-1.484, 6.646], melhoria=-1.96%, p=0.2527
+- emergency_response_time: IA=1.680, Trad=10.440, análise=paired, pares=5, Δ=-8.760, CI95(Δ)=[-15.060, -3.832], melhoria=83.91%, p=0.0647
+- total_collisions: IA=83.800, Trad=90.000, análise=paired, pares=5, Δ=-6.200, CI95(Δ)=[-7.800, -4.200], melhoria=6.89%, p=0.0647
+- collision_avoided: IA=0.200, Trad=0.400, análise=paired, pares=5, Δ=-0.200, CI95(Δ)=[-0.800, 0.400], melhoria=-50.00%, p=1.0000
 
 ## Nota Metodológica
 - Intervalos de confiança de cada modo: aproximação normal (95%).
