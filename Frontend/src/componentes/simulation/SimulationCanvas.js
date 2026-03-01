@@ -354,16 +354,27 @@ export const SimulationCanvas = ({ engineRef }) => {
     }
 
     // Vehicle legend
-    const legendX = width - padding - 150;
-    const legendY = height - padding - 74;
-    const legendW = 140;
+    const legendW = Math.min(140, Math.max(110, width - 16));
     const legendH = 66;
+    const legendMargin = 8;
+    const legendX = Math.max(
+      legendMargin,
+      Math.min(width - legendW - legendMargin, width - padding - 150)
+    );
+    const legendY = Math.max(
+      legendMargin,
+      Math.min(height - legendH - legendMargin, height - padding - 74)
+    );
 
     ctx.fillStyle = 'rgba(12, 12, 15, 0.86)';
     ctx.strokeStyle = '#3f3f46';
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.roundRect(legendX, legendY, legendW, legendH, 8);
+    if (typeof ctx.roundRect === 'function') {
+      ctx.roundRect(legendX, legendY, legendW, legendH, 8);
+    } else {
+      ctx.rect(legendX, legendY, legendW, legendH);
+    }
     ctx.fill();
     ctx.stroke();
 
