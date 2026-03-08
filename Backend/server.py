@@ -79,6 +79,33 @@ class MetricsSaveRequest(BaseModel):
 class MetricsExportRequest(BaseModel):
     snapshots: List[MetricSnapshot]
 
+
+class Campaign(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    campaign_id: str
+    scenario: str
+    mode: str
+    repetitions: int
+    grid_size: int
+    duration: float
+    seed: Optional[int] = None
+    pairs: Optional[List[dict]] = None  # For paired analysis
+    results_summary: Optional[dict] = None  # Aggregated results
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class CampaignSaveRequest(BaseModel):
+    campaign_id: str
+    scenario: str
+    mode: str
+    repetitions: int
+    grid_size: int
+    duration: float
+    seed: Optional[int] = None
+    pairs: Optional[List[dict]] = None
+    results_summary: Optional[dict] = None
+
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
@@ -158,6 +185,33 @@ async def metrics_export(payload: MetricsExportRequest):
         "Content-Disposition": 'attachment; filename="urbanflow_metricas.csv"'
     }
     return StreamingResponse(csv_bytes, media_type="text/csv", headers=headers)
+
+
+@api_router.post("/campaigns/save", response_model=Campaign)
+async def campaigns_save(payload: CampaignSaveRequest):
+    campaign_dict = payload.model_dump()
+    campaign_obj = Campaign(**campaign_dict)
+    
+    # Convert to dict and serialize datetime to ISO string for MongoDB
+    doc = campaign_obj.model_dump()
+    doc['timestamp'] = doc['timestamp'].isoformat()
+    
+    await db.campaigns.insert_one(doc)
+    return campaign_obj
+
+
+@api_router.get("/campaigns", response_model=List[Campaign])
+async def get_campaigns(limit: int = 100):
+    # Exclude MongoDB's _id field from the query results
+    campaigns = await db.campaigns.find({}, {"_id": 0}).sort("timestamp", -1).limit(limit).to_list(limit)
+    
+    # Convert ISO string timestamps back to datetime objects
+    for campaign in campaigns:
+        if isinstance(campaign.get('timestamp'), str):
+            campaign['timestamp'] = datetime.fromisoformat(campaign['timestamp'])
+    
+    return campaigns
+
 
 # Include the router in the main app
 app.include_router(api_router)
