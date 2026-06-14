@@ -1,4 +1,4 @@
-# TrafficAI — Sistema de Simulação e Gestão Inteligente de Tráfego Urbano
+# UrbanFlow - Sistema de Simulação e Gestão Inteligente de Tráfego Urbano
 
 Plataforma web de simulação de tráfego urbano com controlo semafórico adaptativo (AI/RL), motor de regras em linguagem natural, integração de dados GTFS reais e análise comparativa em tempo real.
 
@@ -8,12 +8,12 @@ Plataforma web de simulação de tráfego urbano com controlo semafórico adapta
 
 ## Pré-requisitos
 
-| Ferramenta | Versão mínima |
-|---|---|
-| Node.js | 18+ |
-| Python | 3.11+ |
-| MongoDB | 6+ (local ou Atlas) |
-| npm | 9+ |
+| Ferramenta | Versão mínima     |
+| ---------- | ------------------- |
+| Node.js    | 18+                 |
+| Python     | 3.11+               |
+| MongoDB    | 6+ (local ou Atlas) |
+| npm        | 9+                  |
 
 ---
 
@@ -69,12 +69,14 @@ npm run dev
 ### Opção B — Iniciar separadamente
 
 **Backend:**
+
 ```bash
 cd Backend
 uvicorn server:app --reload --port 8000
 ```
 
 **Frontend** (outro terminal):
+
 ```bash
 cd Frontend
 npm start
@@ -91,9 +93,9 @@ A aplicação fica disponível em **http://localhost:3000**.
 ```
 Projeto-Final-LEI/
 ├── Backend/
-│   ├── server.py            # API FastAPI
-│   ├── rule_engine.py       # Motor de regras em linguagem natural
-│   ├── classificador_co2.py # Classificador de emissões CO₂
+│   ├── server.py                         # API FastAPI
+│   ├── rule_engine.py                    # Motor de regras em linguagem natural
+│   ├── classificador_co2.py              # Classificador de emissões CO₂
 │   ├── requirements.txt
 │   └── .env.example
 ├── Frontend/
@@ -103,38 +105,42 @@ Projeto-Final-LEI/
 │   │   │   ├── simulation/
 │   │   │   │   ├── engine.js             # Motor de simulação (JS puro)
 │   │   │   │   └── SimulationCanvas.js   # Canvas de renderização
-│   │   │   └── dashboard/               # Vistas analíticas
-│   └── public/data/                     # Dados GTFS (18 distritos)
-├── scripts/                             # Scripts de dados e experimentos
-├── RELATORIO.md                         # Relatório técnico completo
-└── RELATORIO.docx                       # Relatório em formato Word
+│   │   │   └── dashboard/                # Vistas analíticas
+│   └── public/data/                      # Dados GTFS (18 distritos)
+├── scripts/                              # Scripts de dados e experimentos
+├── RELATORIO.md                          # Relatório técnico completo
+└── RELATORIO.docx                        # Relatório em formato Word
 ```
+
+> **Nota sobre os dados GTFS:** A aplicação utiliza os ficheiros JSON já processados em `Frontend/public/data/`, suficientes para correr todas as funcionalidades. Os feeds GTFS brutos (`.zip`) não são versionados devido à sua dimensão — caso seja necessário regenerar os JSONs, descarregar dos portais oficiais (Carris Metropolitana, Carris Lisboa, dados.gov.pt) para `Backend/experiments/results/feeds/` e executar `python Backend/experiments/export_gtfs_map_data.py`.
 
 ---
 
 ## Funcionalidades
 
-| Funcionalidade | Descrição |
-|---|---|
-| **Simulação em tempo real** | Grelha configurável (2×2 a 10×10), veículos, peões |
-| **3 modos de controlo** | AI adaptativa, Ciclo fixo, Q-Learning (RL) |
-| **Shadow engine** | Comparação AI vs. Tradicional em paralelo com mesma semente |
-| **Motor de regras** | Regras em português natural (ex: "Priorizar ambulâncias") |
-| **Integração GTFS** | Dados reais de 18 distritos portugueses |
-| **9 vistas analíticas** | Dashboard, Ambiental, Segurança, Comparação, Histórico, Logs... |
-| **Exportação** | Relatórios e logs em CSV |
+| Funcionalidade                      | Descrição                                                         |
+| ----------------------------------- | ------------------------------------------------------------------- |
+| **Simulação em tempo real** | Grelha configurável (2×2 a 10×10), veículos, peões             |
+| **3 modos de controlo**       | AI adaptativa, Ciclo fixo, Q-Learning (RL)                          |
+| **Shadow engine**             | Comparação AI vs. Tradicional em paralelo com mesma semente       |
+| **Motor de regras**           | Regras em português natural (ex: "Priorizar ambulâncias")         |
+| **Integração GTFS**         | Dados reais de 18 distritos portugueses                             |
+| **9 vistas analíticas**      | Dashboard, Ambiental, Segurança, Comparação, Histórico, Logs... |
+| **Exportação**              | Relatórios e logs em CSV                                           |
 
 ---
 
 ## Testes
 
 **Backend:**
+
 ```bash
 cd Backend
 pytest tests/
 ```
 
 **Frontend (engine JS):**
+
 ```bash
 cd Frontend
 npm test
@@ -144,4 +150,4 @@ npm test
 
 ## Relatório
 
-O relatório técnico completo está disponível em [`RELATORIO.md`](RELATORIO.md) e [`RELATORIO.docx`](RELATORIO.docx), cobrindo arquitetura, diagramas UML, requisitos, implementação, testes e referências bibliográficas.
+O relatório técnico completo está disponível em Relatório, cobrindo arquitetura, diagramas UML, requisitos, implementação, testes e referências bibliográficas.
