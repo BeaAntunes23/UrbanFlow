@@ -1,4 +1,4 @@
-# TrafficAI — Sistema de Simulação e Gestão Inteligente de Tráfego Urbano
+# UrbanFlow - Sistema de Simulação e Gestão Inteligente de Tráfego Urbano
 
 Plataforma web de simulação de tráfego urbano com controlo semafórico adaptativo (AI/RL), motor de regras em linguagem natural, integração de dados GTFS reais e análise comparativa em tempo real.
 
@@ -93,9 +93,9 @@ A aplicação fica disponível em **http://localhost:3000**.
 ```
 Projeto-Final-LEI/
 ├── Backend/
-│   ├── server.py            # API FastAPI
-│   ├── rule_engine.py       # Motor de regras em linguagem natural
-│   ├── classificador_co2.py # Classificador de emissões CO₂
+│   ├── server.py                         # API FastAPI
+│   ├── rule_engine.py                    # Motor de regras em linguagem natural
+│   ├── classificador_co2.py              # Classificador de emissões CO₂
 │   ├── requirements.txt
 │   └── .env.example
 ├── Frontend/
@@ -105,12 +105,14 @@ Projeto-Final-LEI/
 │   │   │   ├── simulation/
 │   │   │   │   ├── engine.js             # Motor de simulação (JS puro)
 │   │   │   │   └── SimulationCanvas.js   # Canvas de renderização
-│   │   │   └── dashboard/               # Vistas analíticas
-│   └── public/data/                     # Dados GTFS (18 distritos)
-├── scripts/                             # Scripts de dados e experimentos
-├── RELATORIO.md                         # Relatório técnico completo
-└── RELATORIO.docx                       # Relatório em formato Word
+│   │   │   └── dashboard/                # Vistas analíticas
+│   └── public/data/                      # Dados GTFS (18 distritos)
+├── scripts/                              # Scripts de dados e experimentos
+├── RELATORIO.md                          # Relatório técnico completo
+└── RELATORIO.docx                        # Relatório em formato Word
 ```
+
+> **Nota sobre os dados GTFS:** A aplicação utiliza os ficheiros JSON já processados em `Frontend/public/data/`, suficientes para correr todas as funcionalidades. Os feeds GTFS brutos (`.zip`) não são versionados devido à sua dimensão — caso seja necessário regenerar os JSONs, descarregar dos portais oficiais (Carris Metropolitana, Carris Lisboa, dados.gov.pt) para `Backend/experiments/results/feeds/` e executar `python Backend/experiments/export_gtfs_map_data.py`.
 
 ---
 
@@ -147,6 +149,7 @@ npm test
 ---
 
 
+<<<<<<< HEAD
 **Nota sobre os dados GTFS:** 
 
 A aplicação utiliza os ficheiros JSON já processados
@@ -155,3 +158,6 @@ GTFS brutos (`.zip`) não são versionados devido à sua dimensão — caso seja
 regenerar os JSONs, descarregar dos portais oficiais (Carris Metropolitana, Carris
 Lisboa, dados.gov.pt) para `Backend/experiments/results/feeds/` e executar
 `python Backend/experiments/export_gtfs_map_data.py`.
+=======
+O relatório técnico completo está disponível em Relatório, cobrindo arquitetura, diagramas UML, requisitos, implementação, testes e referências bibliográficas.
+>>>>>>> 9154bc996ad34e5dc3e80c9665d4e54a40319bda
