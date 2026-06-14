@@ -8,12 +8,12 @@ Plataforma web de simulação de tráfego urbano com controlo semafórico adapta
 
 ## Pré-requisitos
 
-| Ferramenta | Versão mínima |
-|---|---|
-| Node.js | 18+ |
-| Python | 3.11+ |
-| MongoDB | 6+ (local ou Atlas) |
-| npm | 9+ |
+| Ferramenta | Versão mínima     |
+| ---------- | ------------------- |
+| Node.js    | 18+                 |
+| Python     | 3.11+               |
+| MongoDB    | 6+ (local ou Atlas) |
+| npm        | 9+                  |
 
 ---
 
@@ -69,12 +69,14 @@ npm run dev
 ### Opção B — Iniciar separadamente
 
 **Backend:**
+
 ```bash
 cd Backend
 uvicorn server:app --reload --port 8000
 ```
 
 **Frontend** (outro terminal):
+
 ```bash
 cd Frontend
 npm start
@@ -114,27 +116,29 @@ Projeto-Final-LEI/
 
 ## Funcionalidades
 
-| Funcionalidade | Descrição |
-|---|---|
-| **Simulação em tempo real** | Grelha configurável (2×2 a 10×10), veículos, peões |
-| **3 modos de controlo** | AI adaptativa, Ciclo fixo, Q-Learning (RL) |
-| **Shadow engine** | Comparação AI vs. Tradicional em paralelo com mesma semente |
-| **Motor de regras** | Regras em português natural (ex: "Priorizar ambulâncias") |
-| **Integração GTFS** | Dados reais de 18 distritos portugueses |
-| **9 vistas analíticas** | Dashboard, Ambiental, Segurança, Comparação, Histórico, Logs... |
-| **Exportação** | Relatórios e logs em CSV |
+| Funcionalidade                      | Descrição                                                         |
+| ----------------------------------- | ------------------------------------------------------------------- |
+| **Simulação em tempo real** | Grelha configurável (2×2 a 10×10), veículos, peões             |
+| **3 modos de controlo**       | AI adaptativa, Ciclo fixo, Q-Learning (RL)                          |
+| **Shadow engine**             | Comparação AI vs. Tradicional em paralelo com mesma semente       |
+| **Motor de regras**           | Regras em português natural (ex: "Priorizar ambulâncias")         |
+| **Integração GTFS**         | Dados reais de 18 distritos portugueses                             |
+| **9 vistas analíticas**      | Dashboard, Ambiental, Segurança, Comparação, Histórico, Logs... |
+| **Exportação**              | Relatórios e logs em CSV                                           |
 
 ---
 
 ## Testes
 
 **Backend:**
+
 ```bash
 cd Backend
 pytest tests/
 ```
 
 **Frontend (engine JS):**
+
 ```bash
 cd Frontend
 npm test
@@ -142,6 +146,12 @@ npm test
 
 ---
 
-## Relatório
 
-O relatório técnico completo está disponível em [`RELATORIO.md`](RELATORIO.md) e [`RELATORIO.docx`](RELATORIO.docx), cobrindo arquitetura, diagramas UML, requisitos, implementação, testes e referências bibliográficas.
+**Nota sobre os dados GTFS:** 
+
+A aplicação utiliza os ficheiros JSON já processados
+em `Frontend/public/data/`, suficientes para correr todas as funcionalidades. Os feeds
+GTFS brutos (`.zip`) não são versionados devido à sua dimensão — caso seja necessário
+regenerar os JSONs, descarregar dos portais oficiais (Carris Metropolitana, Carris
+Lisboa, dados.gov.pt) para `Backend/experiments/results/feeds/` e executar
+`python Backend/experiments/export_gtfs_map_data.py`.
