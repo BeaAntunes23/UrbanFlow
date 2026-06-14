@@ -115,7 +115,7 @@ Projeto-Final-LEI/
 > *Nota sobre os dados GTFS:*
 > A aplicação utiliza os ficheiros JSON já processados em `Frontend/public/data/`, suficientes para correr todas as funcionalidades. Os feeds GTFS brutos (`.zip`) não são versionados devido à sua dimensão — caso seja necessário regenerar os JSONs, descarregar dos portais oficiais (Carris Metropolitana, Carris Lisboa, dados.gov.pt) para `Backend/experiments/results/feeds/` e executar `python Backend/experiments/export_gtfs_map_data.py`.
 > Para regenerar os JSONs (se quiseres adicionar mais distritos, atualizar dados, etc.) teria de descarregar os ficheiros:
-Carris Metropolitana: https://www.carrismetropolitana.pt/oque/dados-abertos/
+Carris Metropolitana: https://api.carrismetropolitana.pt/gtfs
 IMT (transportes nacionais): https://www.imt-ip.pt
 CARRIS Lisboa: https://www.carris.pt
 Operadores municipais (Tuba Barcelos, Mobiave, etc.): cada um tem o seu portal
