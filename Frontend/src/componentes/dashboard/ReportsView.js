@@ -107,9 +107,9 @@ const getContextualRecommendation = (metrics, scenario, mode) => {
 };
 
 const getModeLabel = (mode) => {
-  if (mode === 'ai') return 'AI';
+  if (mode === 'ai') return 'IA';
   if (mode === 'rl') return 'RL';
-  return 'Traditional';
+  return 'Tradicional';
 };
 
 const ReportCard = ({ title, value, subtitle, icon: Icon, tone = 'orange' }) => {
@@ -224,11 +224,11 @@ const metricIsLowerBetter = (metric) => (
 );
 
 const metricLabel = (metric) => {
-  if (metric === 'avg_wait_time_mean') return 'Avg Wait';
-  if (metric === 'flow_rate_mean') return 'Flow';
+  if (metric === 'avg_wait_time_mean') return 'Espera';
+  if (metric === 'flow_rate_mean') return 'Fluxo';
   if (metric === 'co2_emissions_mean') return 'CO2';
-  if (metric === 'emergency_response_time_mean') return 'Emergency';
-  return 'Collisions';
+  if (metric === 'emergency_response_time_mean') return 'Emergência';
+  return 'Colisões';
 };
 
 const pickWinnerMode = (rows, metric) => {
@@ -540,7 +540,7 @@ export const ReportsView = ({ metrics, comparison, metricHistory, config }) => {
   );
 
   const modeLabel = getModeLabel(config?.mode);
-  const baselineLabel = config?.mode === 'traditional' ? 'AI/RL baseline' : 'Traditional baseline';
+  const baselineLabel = config?.mode === 'traditional' ? 'Referência IA/RL' : 'Referência Tradicional';
 
   const operationalScore = Math.max(0,
     100
@@ -603,12 +603,12 @@ export const ReportsView = ({ metrics, comparison, metricHistory, config }) => {
     <div className="flex-1 overflow-y-auto bg-[#09090b] p-8 hide-scrollbar">
       <header className="mb-8 flex items-start justify-between gap-4">
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-black tracking-tight text-white">Reports Center</h1>
+          <h1 className="text-3xl font-black tracking-tight text-white">Centro de Relatórios</h1>
           <p className="text-sm font-medium text-muted-foreground/60">
-            Structured operational reports for scenario {config?.scenario || 'normal'} in {modeLabel} mode.
+            Relatórios operacionais para o cenário {config?.scenario || 'normal'} em modo {modeLabel}.
           </p>
           <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/50">
-            Source: {campaignData.loading ? 'Loading...' : campaignData.source}
+            Fonte: {campaignData.loading ? 'A carregar...' : campaignData.source}
             {campaignData.generatedAt ? ` • ${new Date(campaignData.generatedAt).toLocaleString()}` : ''}
             {campaignData.campaignId ? ` • ${campaignData.campaignId}` : ''}
           </div>
@@ -634,30 +634,30 @@ export const ReportsView = ({ metrics, comparison, metricHistory, config }) => {
 
       <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
         <ReportCard
-          title="Operational Score"
+          title="Pontuação Operacional"
           value={`${operationalScore.toFixed(1)}/100`}
-          subtitle="Wait + safety + emergency response"
+          subtitle="Espera + segurança + resposta a emergências"
           icon={Trophy}
           tone="orange"
         />
         <ReportCard
-          title="Sustainability Score"
+          title="Pontuação de Sustentabilidade"
           value={`${sustainabilityScore.toFixed(1)}/100`}
-          subtitle="Based on CO2 and flow stability"
+          subtitle="Baseada em CO2 e estabilidade do fluxo"
           icon={Leaf}
           tone="emerald"
         />
         <ReportCard
-          title="Safety Score"
+          title="Pontuação de Segurança"
           value={`${safetyScore.toFixed(1)}/100`}
-          subtitle="Collisions and preventive events"
+          subtitle="Colisões e eventos preventivos"
           icon={Shield}
           tone={asNumber(effectiveMetrics?.totalCollisions) > 0 ? 'red' : 'emerald'}
         />
         <ReportCard
-          title="Pedestrian Throughput"
+          title="Fluxo de Peões"
           value={`${asNumber(effectiveMetrics?.pedestriansCompleted)}`}
-          subtitle={`Avg wait ${asNumber(effectiveMetrics?.pedestrianAvgWaitTime).toFixed(1)}s`}
+          subtitle={`Espera média ${asNumber(effectiveMetrics?.pedestrianAvgWaitTime).toFixed(1)}s`}
           icon={Footprints}
           tone="orange"
         />
@@ -666,23 +666,23 @@ export const ReportsView = ({ metrics, comparison, metricHistory, config }) => {
       <section className="grid grid-cols-1 xl:grid-cols-[1.2fr_0.8fr] gap-6 mb-8">
         <article className="bg-[#151518] border border-[#1c1c1f] rounded-3xl p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-black uppercase tracking-[0.18em] text-muted-foreground/60">Current vs Baseline</h2>
+            <h2 className="text-sm font-black uppercase tracking-[0.18em] text-muted-foreground/60">Atual vs Referência</h2>
             <span className="text-[10px] font-black text-primary uppercase tracking-widest">{baselineLabel}</span>
           </div>
 
-          <ComparisonRow label="Average Wait Time" current={effectiveMetrics?.avgWaitTime} baseline={effectiveComparison?.avgWaitTime} betterWhenLower unit="s" />
-          <ComparisonRow label="Flow Rate" current={effectiveMetrics?.flowRate} baseline={effectiveComparison?.flowRate} unit="" />
-          <ComparisonRow label="CO2 Emissions" current={effectiveMetrics?.co2Emissions} baseline={effectiveComparison?.co2Emissions} betterWhenLower unit="kg" />
-          <ComparisonRow label="Emergency Response" current={effectiveMetrics?.emergencyResponseTime} baseline={effectiveComparison?.emergencyResponseTime} betterWhenLower unit="s" />
-          <ComparisonRow label="Total Collisions" current={effectiveMetrics?.totalCollisions} baseline={effectiveComparison?.totalCollisions} betterWhenLower unit="" />
+          <ComparisonRow label="Espera Média" current={effectiveMetrics?.avgWaitTime} baseline={effectiveComparison?.avgWaitTime} betterWhenLower unit="s" />
+          <ComparisonRow label="Taxa de Fluxo" current={effectiveMetrics?.flowRate} baseline={effectiveComparison?.flowRate} unit="" />
+          <ComparisonRow label="Emissões CO2" current={effectiveMetrics?.co2Emissions} baseline={effectiveComparison?.co2Emissions} betterWhenLower unit="kg" />
+          <ComparisonRow label="Resposta a Emergências" current={effectiveMetrics?.emergencyResponseTime} baseline={effectiveComparison?.emergencyResponseTime} betterWhenLower unit="s" />
+          <ComparisonRow label="Total de Colisões" current={effectiveMetrics?.totalCollisions} baseline={effectiveComparison?.totalCollisions} betterWhenLower unit="" />
         </article>
 
         <article className="bg-[#151518] border border-[#1c1c1f] rounded-3xl p-6 flex flex-col gap-4">
-          <h2 className="text-sm font-black uppercase tracking-[0.18em] text-muted-foreground/60">Trend Signals (recent)</h2>
+          <h2 className="text-sm font-black uppercase tracking-[0.18em] text-muted-foreground/60">Tendências Recentes</h2>
 
           <div className="flex items-center justify-between rounded-2xl border border-[#1c1c1f] bg-[#0c0c0e]/60 px-4 py-3">
             <div className="flex items-center gap-2 text-xs font-bold text-muted-foreground">
-              <Clock3 size={14} /> Wait Time
+              <Clock3 size={14} /> Tempo de Espera
             </div>
             <div className={`flex items-center gap-1 text-xs font-black ${getTrend(metricHistory, 'avgWaitTime') <= 0 ? 'text-emerald-500' : 'text-orange-500'}`}>
               {getTrend(metricHistory, 'avgWaitTime') <= 0 ? <ArrowDown size={14} /> : <ArrowUp size={14} />}
@@ -692,17 +692,17 @@ export const ReportsView = ({ metrics, comparison, metricHistory, config }) => {
 
           <div className="flex items-center justify-between rounded-2xl border border-[#1c1c1f] bg-[#0c0c0e]/60 px-4 py-3">
             <div className="flex items-center gap-2 text-xs font-bold text-muted-foreground">
-              <Ambulance size={14} /> Emergency RT
+              <Ambulance size={14} /> Resposta Emergência
             </div>
             <span className="text-xs font-black text-white">{asNumber(effectiveMetrics?.emergencyResponseTime).toFixed(1)}s</span>
           </div>
 
           <div className="flex items-center justify-between rounded-2xl border border-[#1c1c1f] bg-[#0c0c0e]/60 px-4 py-3">
             <div className="flex items-center gap-2 text-xs font-bold text-muted-foreground">
-              <Shield size={14} /> Collisions
+              <Shield size={14} /> Colisões
             </div>
             <span className={`text-xs font-black ${asNumber(effectiveMetrics?.totalCollisions) > 0 ? 'text-red-500' : 'text-emerald-500'}`}>
-              {asNumber(effectiveMetrics?.totalCollisions) > 0 ? 'Attention required' : 'Stable'}
+              {asNumber(effectiveMetrics?.totalCollisions) > 0 ? 'Atenção necessária' : 'Estável'}
             </span>
           </div>
 
@@ -715,7 +715,7 @@ export const ReportsView = ({ metrics, comparison, metricHistory, config }) => {
       {campaignData.summary.length > 0 && (
         <section className="bg-[#151518] border border-[#1c1c1f] rounded-3xl p-6 mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-black uppercase tracking-[0.18em] text-muted-foreground/60">Scenario Summary (Real Data)</h2>
+            <h2 className="text-sm font-black uppercase tracking-[0.18em] text-muted-foreground/60">Resumo por Cenário (Dados Reais)</h2>
             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/50">
               {campaignData.summary.length} rows
             </span>
@@ -725,13 +725,13 @@ export const ReportsView = ({ metrics, comparison, metricHistory, config }) => {
             <table className="w-full text-left">
               <thead>
                 <tr className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground/40 border-b border-[#1c1c1f]">
-                  <th className="pb-3 pr-4">Scenario</th>
-                  <th className="pb-3 pr-4">Mode</th>
-                  <th className="pb-3 pr-4">Avg Wait</th>
-                  <th className="pb-3 pr-4">Flow</th>
+                  <th className="pb-3 pr-4">Cenário</th>
+                  <th className="pb-3 pr-4">Modo</th>
+                  <th className="pb-3 pr-4">Espera Média</th>
+                  <th className="pb-3 pr-4">Fluxo</th>
                   <th className="pb-3 pr-4">CO2</th>
-                  <th className="pb-3 pr-4">Emergency</th>
-                  <th className="pb-3 pr-4">Collisions</th>
+                  <th className="pb-3 pr-4">Emergência</th>
+                  <th className="pb-3 pr-4">Colisões</th>
                 </tr>
               </thead>
               <tbody>
@@ -755,9 +755,9 @@ export const ReportsView = ({ metrics, comparison, metricHistory, config }) => {
       <section className="bg-[#151518] border border-[#1c1c1f] rounded-3xl p-6 mb-8">
         <div className="flex items-center justify-between mb-4 gap-3">
           <div className="flex flex-col gap-1">
-            <h2 className="text-sm font-black uppercase tracking-[0.18em] text-muted-foreground/60">RL Benchmark</h2>
+            <h2 className="text-sm font-black uppercase tracking-[0.18em] text-muted-foreground/60">Benchmark RL</h2>
             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/50">
-              Source: {rlData.loading ? 'Loading...' : rlData.source}
+              Fonte: {rlData.loading ? 'A carregar...' : rlData.source}
               {rlData.generatedAt ? ` • ${new Date(rlData.generatedAt).toLocaleString()}` : ''}
             </span>
           </div>
@@ -768,13 +768,13 @@ export const ReportsView = ({ metrics, comparison, metricHistory, config }) => {
                 onClick={handleExportRlCsv}
                 className="px-3 py-2 rounded-xl border border-[#1c1c1f] bg-[#0c0c0e] text-white text-[10px] font-black uppercase tracking-widest hover:bg-[#1c1c1f] transition-all"
               >
-                Export RL CSV
+                Exportar RL CSV
               </button>
               <button
                 onClick={handleExportRlJson}
                 className="px-3 py-2 rounded-xl border border-primary/20 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest hover:bg-primary/20 transition-all"
               >
-                Export RL JSON
+                Exportar RL JSON
               </button>
             </div>
           )}
@@ -782,21 +782,21 @@ export const ReportsView = ({ metrics, comparison, metricHistory, config }) => {
 
         {rlData.summary.length === 0 ? (
           <div className="rounded-2xl border border-[#1c1c1f] bg-[#0c0c0e]/60 p-4 text-xs text-muted-foreground">
-            RL evaluation summary not found yet. Run `evaluate-rl-agent.cjs` to generate `rl_evaluation_summary_latest.json`.
+            Resumo de avaliação RL não encontrado. Executa `evaluate-rl-agent.cjs` para gerar `rl_evaluation_summary_latest.json`.
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
                 <tr className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground/40 border-b border-[#1c1c1f]">
-                  <th className="pb-3 pr-4">Scenario</th>
-                  <th className="pb-3 pr-4">Mode</th>
-                  <th className="pb-3 pr-4">Avg Wait</th>
-                  <th className="pb-3 pr-4">Flow</th>
+                  <th className="pb-3 pr-4">Cenário</th>
+                  <th className="pb-3 pr-4">Modo</th>
+                  <th className="pb-3 pr-4">Espera Média</th>
+                  <th className="pb-3 pr-4">Fluxo</th>
                   <th className="pb-3 pr-4">CO2</th>
-                  <th className="pb-3 pr-4">Emergency</th>
-                  <th className="pb-3 pr-4">Collisions</th>
-                  <th className="pb-3 pr-4">Winners</th>
+                  <th className="pb-3 pr-4">Emergência</th>
+                  <th className="pb-3 pr-4">Colisões</th>
+                  <th className="pb-3 pr-4">Vencedores</th>
                 </tr>
               </thead>
               <tbody>
@@ -850,24 +850,24 @@ export const ReportsView = ({ metrics, comparison, metricHistory, config }) => {
 
       <section className="bg-[#151518] border border-[#1c1c1f] rounded-3xl p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-black uppercase tracking-[0.18em] text-muted-foreground/60">Report Checklist</h2>
+          <h2 className="text-sm font-black uppercase tracking-[0.18em] text-muted-foreground/60">Lista de Verificação</h2>
           <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/50">
-            Auto-generated at {new Date(snapshot.generated_at).toLocaleTimeString()}
+            Gerado automaticamente às {new Date(snapshot.generated_at).toLocaleTimeString()}
           </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
           <div className="rounded-2xl border border-[#1c1c1f] bg-[#0c0c0e]/60 p-4 flex items-center gap-2 text-xs font-bold text-white">
             <CheckCircle2 size={14} className="text-emerald-500" />
-            Executive summary
+            Resumo executivo
           </div>
           <div className="rounded-2xl border border-[#1c1c1f] bg-[#0c0c0e]/60 p-4 flex items-center gap-2 text-xs font-bold text-white">
             <CheckCircle2 size={14} className="text-emerald-500" />
-            Scenario comparison
+            Comparação de cenários
           </div>
           <div className="rounded-2xl border border-[#1c1c1f] bg-[#0c0c0e]/60 p-4 flex items-center gap-2 text-xs font-bold text-white">
             <CheckCircle2 size={14} className="text-emerald-500" />
-            Pedestrian and safety metrics
+            Métricas de peões e segurança
           </div>
           <div className="rounded-2xl border border-[#1c1c1f] bg-[#0c0c0e]/60 p-4 flex items-center gap-2 text-xs font-bold text-white">
             {asNumber(effectiveMetrics?.totalCollisions) > 0 ? (
@@ -875,7 +875,7 @@ export const ReportsView = ({ metrics, comparison, metricHistory, config }) => {
             ) : (
               <CheckCircle2 size={14} className="text-emerald-500" />
             )}
-            Incident status and recommendation
+            Estado de incidentes e recomendação
           </div>
         </div>
       </section>

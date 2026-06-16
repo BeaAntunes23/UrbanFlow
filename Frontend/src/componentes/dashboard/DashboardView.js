@@ -117,35 +117,35 @@ export const DashboardView = ({ metrics, metricHistory, eventLog = [] }) => {
   return (
     <div className="flex-1 overflow-y-auto bg-[#09090b] p-8 hide-scrollbar">
       <header className="mb-10">
-        <h1 className="text-3xl font-black tracking-tight text-white mb-2">Real-time Traffic Metrics</h1>
-        <p className="text-muted-foreground text-sm font-medium opacity-60">Advanced AI-driven monitoring of urban mobility and carbon footprint.</p>
+        <h1 className="text-3xl font-black tracking-tight text-white mb-2">Métricas de Tráfego em Tempo Real</h1>
+        <p className="text-muted-foreground text-sm font-medium opacity-60">Monitorização inteligente da mobilidade urbana e pegada de carbono.</p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <MetricCard 
-          title="Avg Wait Time" 
-          value={metrics.avgWaitTime} 
-          unit="s" 
-          change={-12.5} 
-          data={waitTimeData} 
-          color="#f97316" 
+        <MetricCard
+          title="Espera Média"
+          value={metrics.avgWaitTime}
+          unit="s"
+          change={-12.5}
+          data={waitTimeData}
+          color="#f97316"
         />
-        <MetricCard 
-          title="Flow Rate (VPM)" 
-          value={metrics.flowRate} 
-          unit="" 
-          change={5.2} 
-          data={flowRateData} 
-          color="#10b981" 
+        <MetricCard
+          title="Taxa de Fluxo (VPM)"
+          value={metrics.flowRate}
+          unit=""
+          change={5.2}
+          data={flowRateData}
+          color="#10b981"
           type="area"
         />
-        <MetricCard 
-          title="CO2 Emissions (KG)" 
-          value={metrics.co2Emissions} 
-          unit="" 
-          change={-2.1} 
-          data={co2Data} 
-          color="#f97316" 
+        <MetricCard
+          title="Emissões CO2 (KG)"
+          value={metrics.co2Emissions}
+          unit=""
+          change={-2.1}
+          data={co2Data}
+          color="#f97316"
           type="dashed"
         />
       </div>
@@ -154,23 +154,23 @@ export const DashboardView = ({ metrics, metricHistory, eventLog = [] }) => {
         {/* Total Collisions */}
         <div className="bg-[#151518] border border-[#1c1c1f] rounded-3xl p-6 flex flex-col justify-between">
           <div className="flex justify-between items-start">
-            <h3 className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.2em]">Total Collisions (24h)</h3>
+            <h3 className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.2em]">Total de Colisões (24h)</h3>
             <CheckCircle2 size={24} className="text-emerald-500" />
           </div>
           <div>
             <span className="text-5xl font-black text-white">{metrics.totalCollisions || 0}</span>
-            <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest mt-2">Operational Safety Perfect</p>
+            <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest mt-2">Segurança Operacional Perfeita</p>
           </div>
         </div>
 
         {/* Active Vehicles Network */}
         <div className="bg-[#151518] border border-[#1c1c1f] rounded-3xl p-6">
-          <h3 className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.2em] mb-6">Active Vehicles Network</h3>
+          <h3 className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.2em] mb-6">Rede de Veículos Ativos</h3>
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
               <div className="flex justify-between text-[10px] font-bold tracking-widest uppercase">
-                <span className="text-orange-500">Autonomous</span>
-                <span className="text-white">1,482 (62%)</span>
+                <span className="text-orange-500">Autónomo</span>
+                <span className="text-white">1.482 (62%)</span>
               </div>
               <div className="h-1.5 w-full bg-[#1c1c1f] rounded-full overflow-hidden">
                 <div className="h-full bg-orange-500 rounded-full w-[62%] shadow-[0_0_8px_rgba(249,115,22,0.5)]" />
@@ -178,7 +178,7 @@ export const DashboardView = ({ metrics, metricHistory, eventLog = [] }) => {
             </div>
             <div className="flex flex-col gap-2">
               <div className="flex justify-between text-[10px] font-bold tracking-widest uppercase text-muted-foreground/60">
-                <span>Legacy</span>
+                <span>Convencional</span>
                 <span>894 (38%)</span>
               </div>
               <div className="h-1.5 w-full bg-[#1c1c1f] rounded-full overflow-hidden">
@@ -190,14 +190,14 @@ export const DashboardView = ({ metrics, metricHistory, eventLog = [] }) => {
 
         {/* AI Processor Load */}
         <div className="bg-[#151518] border border-[#1c1c1f] rounded-3xl p-6">
-          <h3 className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.2em] mb-2">AI Processor Load</h3>
+          <h3 className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.2em] mb-2">Carga do Processador IA</h3>
           <span className="text-4xl font-black text-white">24.5%</span>
           <div className="flex gap-1 mt-4">
             {[1, 1, 1, 0, 0, 0, 0, 0].map((active, i) => (
               <div key={i} className={`h-1.5 flex-1 rounded-full ${active ? 'bg-orange-900' : 'bg-[#1c1c1f]'}`} />
             ))}
           </div>
-          <p className="text-[10px] font-bold text-muted-foreground/30 uppercase tracking-widest mt-4">Nodes responding: 42/42</p>
+          <p className="text-[10px] font-bold text-muted-foreground/30 uppercase tracking-widest mt-4">Nós a responder: 42/42</p>
         </div>
       </div>
 
@@ -207,7 +207,7 @@ export const DashboardView = ({ metrics, metricHistory, eventLog = [] }) => {
           <div className="p-2.5 bg-orange-500/10 rounded-xl">
             <Zap size={20} className="text-orange-500" />
           </div>
-          <h3 className="font-bold text-lg">System Event Logs</h3>
+          <h3 className="font-bold text-lg">Registo de Eventos do Sistema</h3>
         </div>
         
         <div className="p-8 overflow-x-auto">
@@ -220,10 +220,10 @@ export const DashboardView = ({ metrics, metricHistory, eventLog = [] }) => {
               <table className="w-full text-left">
                 <thead>
                   <tr className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 border-b border-[#1c1c1f]">
-                    <th className="pb-4 pr-6">Timestamp</th>
-                    <th className="pb-4 pr-6">Category</th>
-                    <th className="pb-4 pr-6">Message</th>
-                    <th className="pb-4">Status</th>
+                    <th className="pb-4 pr-6">Hora</th>
+                    <th className="pb-4 pr-6">Categoria</th>
+                    <th className="pb-4 pr-6">Mensagem</th>
+                    <th className="pb-4">Estado</th>
                   </tr>
                 </thead>
                 <tbody>

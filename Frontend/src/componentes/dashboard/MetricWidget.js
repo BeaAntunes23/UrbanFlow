@@ -70,49 +70,49 @@ export const MetricsWidget = ({
 
   const cards = [
     {
-      title: 'AVG WAIT TIME',
+      title: 'ESPERA MÉDIA',
       value: `${metrics.avgWaitTime}s`,
       comparisonValue: comparison ? `${comparison.avgWaitTime}s` : '-',
     },
     {
-      title: 'VEHICLE FLOW RATE',
+      title: 'FLUXO DE VEÍCULOS',
       value: `${metrics.flowRate}`,
       sub: 'veic/min',
       comparisonValue: comparison ? `${comparison.flowRate}` : '-',
     },
     {
-      title: 'CO2 EMISSIONS',
+      title: 'EMISSÕES CO2',
       value: `${metrics.co2Emissions}`,
       sub: 'kg',
       comparisonValue: comparison ? `${comparison.co2Emissions}kg` : '-',
     },
     {
-      title: 'EMERGENCY RESPONSE',
+      title: 'RESPOSTA A EMERGÊNCIAS',
       value: `${metrics.emergencyResponseTime}s`,
       comparisonValue: comparison ? `${comparison.emergencyResponseTime}s` : '-',
     },
     {
-      title: 'TOTAL COLLISIONS',
+      title: 'TOTAL DE COLISÕES',
       value: `${metrics.totalCollisions ?? 0}`,
       comparisonValue: comparison ? `${comparison.totalCollisions ?? 0}` : '-',
     },
     {
-      title: 'PEDESTRIAN WAIT',
+      title: 'ESPERA DE PEÕES',
       value: `${metrics.pedestrianAvgWaitTime ?? 0}s`,
-      sub: 'avg',
+      sub: 'méd.',
       comparisonValue: comparison ? `${comparison.pedestrianAvgWaitTime ?? 0}s` : '-',
     },
   ];
 
   const dynamicCharts = [
     {
-      title: 'AVG WAIT TIME',
+      title: 'ESPERA MÉDIA',
       color: '#f97316',
       values: metricHistory.map((item) => item.avgWaitTime),
       currentValue: `${metrics.avgWaitTime}s`,
     },
     {
-      title: 'TRAFFIC FLOW',
+      title: 'FLUXO DE TRÁFEGO',
       color: '#10b981',
       values: metricHistory.map((item) => item.flowRate),
       currentValue: `${metrics.flowRate}`,
@@ -132,7 +132,7 @@ export const MetricsWidget = ({
     >
       {sidebar && (
         <div className={premiumCardStyle}>
-          <div className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-1 opacity-50">Vehicle Distribution</div>
+          <div className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-1 opacity-50">Distribuição de Veículos</div>
           <div className="flex flex-col gap-3">
             {legendItems.map((item) => (
               <div
@@ -146,7 +146,7 @@ export const MetricsWidget = ({
                   />
                   <span className="text-xs font-bold text-white/70 group-hover/item:text-white transition-colors">{item.label}</span>
                 </div>
-                <span className="text-[10px] font-black text-muted-foreground/30">LATEST</span>
+                <span className="text-[10px] font-black text-muted-foreground/30">ÚLTIMO</span>
               </div>
             ))}
           </div>
@@ -155,7 +155,7 @@ export const MetricsWidget = ({
 
       {sidebar && (
         <div className={premiumCardStyle}>
-          <div className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-3 opacity-50">Real-time Performance</div>
+          <div className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-3 opacity-50">Desempenho em Tempo Real</div>
           <div className="flex flex-col gap-5">
             {dynamicCharts.map((chart) => (
               <div key={chart.title} className="flex flex-col gap-2">
@@ -184,7 +184,7 @@ export const MetricsWidget = ({
               {item.sub && <span className="text-[10px] font-black text-muted-foreground/40">{item.sub}</span>}
             </div>
             <div className="mt-2 pt-2 border-t border-white/5 flex justify-between items-center text-[9px] font-bold">
-              <span className="text-muted-foreground/40">Baseline</span>
+              <span className="text-muted-foreground/40">Referência</span>
               <span className="text-primary">{item.comparisonValue}</span>
             </div>
           </div>
@@ -204,7 +204,7 @@ export const MetricsWidget = ({
         <div className="w-px h-6 bg-white/5" />
         <div className="flex flex-col items-end">
           <span className="text-[10px] font-black text-primary leading-none">{modeLabel}</span>
-          <span className="text-[8px] font-bold text-muted-foreground/40 uppercase">SYSTEM</span>
+          <span className="text-[8px] font-bold text-muted-foreground/40 uppercase">MODO</span>
         </div>
       </div>
     </div>

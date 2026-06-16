@@ -96,9 +96,9 @@ const MIN_PANEL_WIDTH = 240;
 const MAX_PANEL_WIDTH = 460;
 
 const REPORT_SUB_TABS = [
-  { key: 'reports', label: 'Reports' },
-  { key: 'safety', label: 'Safety Analysis' },
-  { key: 'logs', label: 'System Logs' },
+  { key: 'reports', label: 'Relatórios' },
+  { key: 'safety', label: 'Análise de Segurança' },
+  { key: 'logs', label: 'Registos do Sistema' },
   { key: 'sim_history', label: 'Histórico' },
 ];
 
@@ -418,11 +418,11 @@ function App() {
           </div>
 
           <nav className="hidden lg:flex items-center gap-8 h-full">
-            <button className={navTabClass('dashboard')} onClick={() => setCurrentTab('dashboard')}>Overview</button>
-            <button className={navTabClass('simulation')} onClick={() => setCurrentTab('simulation')}>Live Maps</button>
-            <button className={navTabClass('gtfs_map')} onClick={() => setCurrentTab('gtfs_map')}>GTFS Map</button>
-            <button className={navTabClass('analytics')} onClick={() => setCurrentTab('analytics')}>Analytics</button>
-            <button className={navTabClass('reports')} onClick={() => setCurrentTab('reports')}>Reports</button>
+            <button className={navTabClass('dashboard')} onClick={() => setCurrentTab('dashboard')}>Visão Geral</button>
+            <button className={navTabClass('simulation')} onClick={() => setCurrentTab('simulation')}>Simulação</button>
+            <button className={navTabClass('gtfs_map')} onClick={() => setCurrentTab('gtfs_map')}>Mapa GTFS</button>
+            <button className={navTabClass('analytics')} onClick={() => setCurrentTab('analytics')}>Análise Ambiental</button>
+            <button className={navTabClass('reports')} onClick={() => setCurrentTab('reports')}>Relatórios</button>
           </nav>
         </div>
 
@@ -490,11 +490,11 @@ function App() {
             <div className="flex flex-col flex-1 min-w-0 bg-[#09090b]">
               <header className="h-20 border-b border-[#1c1c1f] flex items-center justify-between px-8 bg-[#0c0c0e]/50 backdrop-blur-xl">
                 <div className="flex flex-col">
-                  <h2 className="font-bold text-xl tracking-tight text-white">Simulation Environment</h2>
+                  <h2 className="font-bold text-xl tracking-tight text-white">Ambiente de Simulação</h2>
                   <div className="flex items-center gap-3 text-muted-foreground/60">
-                    <span className="text-xs font-medium">Node: <span className="text-white">Local-Host-01</span></span>
+                    <span className="text-xs font-medium">Nó: <span className="text-white">Local-Host-01</span></span>
                     <span className="w-1 h-1 rounded-full bg-[#3f3f46]" />
-                    <span className="text-xs font-medium">Latency: <span className="text-white">12ms</span></span>
+                    <span className="text-xs font-medium">Latência: <span className="text-white">12ms</span></span>
                   </div>
                 </div>
 
@@ -518,7 +518,7 @@ function App() {
 
                   <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20">
                     <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse shadow-[0_0_8px_rgba(249,115,22,0.8)]" />
-                    <span className="text-[10px] font-bold text-orange-500 uppercase tracking-widest">System Online</span>
+                    <span className="text-[10px] font-bold text-orange-500 uppercase tracking-widest">Sistema Ativo</span>
                   </div>
 
                   <div className="flex items-center gap-2">
@@ -527,14 +527,14 @@ function App() {
                       className="bg-primary text-white px-5 py-2.5 rounded-xl font-black text-xs tracking-widest hover:opacity-90 transition-all shadow-lg shadow-primary/20 flex items-center gap-2 active:scale-95 uppercase"
                     >
                       <Play size={14} fill="white" />
-                      Start
+                      Iniciar
                     </button>
                     <button
                       onClick={() => engineRef.current?.pause()}
                       className="border border-[#1c1c1f] bg-[#151518] text-white px-5 py-2.5 rounded-xl font-black text-xs tracking-widest hover:bg-[#1c1c1f] transition-all flex items-center gap-2 active:scale-95 uppercase"
                     >
                       <Pause size={14} />
-                      Pause
+                      Pausar
                     </button>
                     <button
                       onClick={handleRestart}

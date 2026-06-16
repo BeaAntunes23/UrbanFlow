@@ -31,9 +31,9 @@ const API = `${BACKEND_URL}/api`;
 
 const SCENARIOS = [
   { value: 'normal', label: 'Normal', icon: Smile },
-  { value: 'rush_hour', label: 'Heavy', icon: Car },
-  { value: 'accident', label: 'Accident', icon: Activity },
-  { value: 'emergency', label: 'Emergency', icon: ShieldAlert },
+  { value: 'rush_hour', label: 'Hora de Ponta', icon: Car },
+  { value: 'accident', label: 'Acidente', icon: Activity },
+  { value: 'emergency', label: 'Emergência', icon: ShieldAlert },
   { value: 'vila_real', label: 'Vila Real', icon: Building2 },
   { value: 'portugal', label: 'Portugal+', icon: MapPinned },
   { value: 'portugal_litoral', label: 'Litoral', icon: MapPinned },
@@ -230,7 +230,7 @@ export const ControlPanel = ({ config, setConfig, engineRef, activeRules, setAct
               }`}
           >
             <Cpu size={16} />
-            IA-Driven
+            Inteligência Artificial
           </button>
           <button
             onClick={() => updateConfig({ mode: 'traditional' })}
@@ -238,7 +238,7 @@ export const ControlPanel = ({ config, setConfig, engineRef, activeRules, setAct
               }`}
           >
             <Gamepad2 size={16} />
-            Manual
+            Tradicional
           </button>
         </div>
       </section>
@@ -277,7 +277,7 @@ export const ControlPanel = ({ config, setConfig, engineRef, activeRules, setAct
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-orange-500">
             <Zap size={18} strokeWidth={2.5} />
-            <h3 className="text-sm font-bold uppercase tracking-wider">Simulation Speed</h3>
+            <h3 className="text-sm font-bold uppercase tracking-wider">Velocidade de Simulação</h3>
           </div>
           <span className="bg-orange-500/10 text-orange-500 px-2 py-0.5 rounded text-[10px] font-black border border-orange-500/20">
             {config.speed.toFixed(1)}x
@@ -312,7 +312,7 @@ export const ControlPanel = ({ config, setConfig, engineRef, activeRules, setAct
 
         <div className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3 py-1 bg-[#0c0c0e]/80 backdrop-blur-md rounded-full border border-white/5">
           <div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-          <span className="text-[9px] font-black uppercase tracking-widest text-white/80">Livestream Feed</span>
+          <span className="text-[9px] font-black uppercase tracking-widest text-white/80">Transmissão em Direto</span>
         </div>
 
         <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
@@ -326,11 +326,11 @@ export const ControlPanel = ({ config, setConfig, engineRef, activeRules, setAct
 
         <div className="absolute bottom-4 left-4 right-4 z-20 flex items-end justify-between">
           <div className="flex flex-col">
-            <h4 className="text-sm font-black text-white tracking-tight">Metropolitan Sector 4-A</h4>
-            <span className="text-[10px] font-bold text-white/40">Active Agents: 1,428 | Grid Load: 64%</span>
+            <h4 className="text-sm font-black text-white tracking-tight">Setor Metropolitano 4-A</h4>
+            <span className="text-[10px] font-bold text-white/40">Agentes Ativos: 1.428 | Carga da Grelha: 64%</span>
           </div>
           <button className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 rounded-xl text-[10px] font-bold text-white transition-all">
-            EXPAND VIEW
+            EXPANDIR
             <Maximize2 size={12} />
           </button>
         </div>

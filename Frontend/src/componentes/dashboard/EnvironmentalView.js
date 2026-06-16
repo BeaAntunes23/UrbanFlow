@@ -136,46 +136,46 @@ export const EnvironmentalView = ({ metrics, co2History }) => {
       <div className="flex items-center justify-between mb-2">
         <div className="flex flex-col">
           <h1 className="text-2xl font-black text-white tracking-tight flex items-center gap-3">
-            Environmental Monitoring
+            Monitorização Ambiental
           </h1>
-          <p className="text-muted-foreground text-sm font-medium opacity-50">Real-time air quality and carbon output telemetry</p>
+          <p className="text-muted-foreground text-sm font-medium opacity-50">Telemetria em tempo real da qualidade do ar e emissões de carbono</p>
         </div>
       </div>
 
       {/* Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <EnvironmentalCard 
-          title="CARBON FOOTPRINT"
+        <EnvironmentalCard
+          title="PEGADA DE CARBONO"
           value={co2Val.toLocaleString()}
-          unit="Tons"
+          unit="kg"
           trend="down"
           trendValue="12.4%"
           icon={Leaf}
           color="orange"
           badge={{ label: co2Classification, style: getCo2BadgeStyle(co2Classification) }}
         />
-        <EnvironmentalCard 
-          title="AIR QUALITY INDEX"
+        <EnvironmentalCard
+          title="ÍNDICE DE QUALIDADE DO AR"
           value={aqi}
-          unit="AQI"
+          unit="IQA"
           subtext={aqiLbl}
           icon={Wind}
           color="sky"
           progress={Math.min(100, aqi / 3)}
         />
-        <EnvironmentalCard 
-          title="FUEL EFFICIENCY"
+        <EnvironmentalCard
+          title="EFICIÊNCIA ENERGÉTICA"
           value={efficiency}
-          unit="veh/kg CO₂"
+          unit="veic/kg CO₂"
           subtext="Veículos por kg CO₂"
           icon={Zap}
           color="orange"
         />
-        <EnvironmentalCard 
-          title="ACTIVE IOT SENSORS"
+        <EnvironmentalCard
+          title="SENSORES IOT ATIVOS"
           value="892"
           unit=""
-          subtext="ACROSS 14 URBAN ZONES"
+          subtext="EM 14 ZONAS URBANAS"
           icon={Wifi}
           color="indigo"
           statusDot
@@ -188,8 +188,8 @@ export const EnvironmentalView = ({ metrics, co2History }) => {
         <div className="lg:col-span-2 bg-[#0c0c0e] border border-[#1c1c1f] rounded-[2.5rem] p-8 flex flex-col gap-6 shadow-2xl">
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
-              <h3 className="text-lg font-black text-white tracking-tight">CO2 Emissions Trend</h3>
-              <p className="text-xs text-muted-foreground font-medium opacity-50">Real-time fluctuations across urban grid</p>
+              <h3 className="text-lg font-black text-white tracking-tight">Evolução das Emissões CO2</h3>
+              <p className="text-xs text-muted-foreground font-medium opacity-50">Variação em tempo real na grelha urbana</p>
             </div>
           </div>
 
@@ -235,13 +235,13 @@ export const EnvironmentalView = ({ metrics, co2History }) => {
         {/* Breakdown & Tips */}
         <div className="flex flex-col gap-8">
           <div className="bg-[#151518] border border-[#1c1c1f] rounded-[2rem] p-8 flex flex-col gap-6">
-            <h3 className="text-lg font-black text-white tracking-tight">Vehicle Emissions</h3>
-            
+            <h3 className="text-lg font-black text-white tracking-tight">Emissões por Tipo de Veículo</h3>
+
             <div className="flex flex-col gap-6">
               {[
-                { label: 'Light Vehicles (Car)', val: lightPct, color: 'orange' },
-                { label: 'Public Transport (Bus)', val: busPct, color: 'sky' },
-                { label: 'Emergency (Ambulance)', val: ambPct, color: 'emerald' },
+                { label: 'Veículos Ligeiros (Carro)', val: lightPct, color: 'orange' },
+                { label: 'Transporte Público (Autocarro)', val: busPct, color: 'sky' },
+                { label: 'Emergência (Ambulância)', val: ambPct, color: 'emerald' },
               ].map((item, i) => (
                 <div key={i} className="flex flex-col gap-2">
                   <div className="flex justify-between items-end">
@@ -263,9 +263,9 @@ export const EnvironmentalView = ({ metrics, co2History }) => {
                 <Sparkles size={18} />
               </div>
               <div className="flex flex-col">
-                <span className="text-[10px] font-black text-orange-500 uppercase tracking-widest mb-1">AI RECOMMENDATION</span>
+                <span className="text-[10px] font-black text-orange-500 uppercase tracking-widest mb-1">RECOMENDAÇÃO DA IA</span>
                 <p className="text-[11px] font-bold text-white/80 leading-relaxed">
-                  Adjust signal timing in Sector 4 to clear heavy idle clusters before 16:00.
+                  Ajustar temporização dos semáforos no Setor 4 para descongestionar filas antes das 16:00.
                 </p>
               </div>
             </div>

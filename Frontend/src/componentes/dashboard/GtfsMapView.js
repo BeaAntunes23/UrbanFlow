@@ -887,7 +887,7 @@ const GtfsServiceProfile = ({ trafficProfile, stops, allPolylines, operators, de
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
       {/* Vehicle Distribution */}
       <div className={cardStyle}>
-        <div className={`${labelStyle} mb-3`}>Vehicle Distribution</div>
+        <div className={`${labelStyle} mb-3`}>Distribuição de Veículos</div>
         <div className="flex flex-col gap-3">
           {SERVICE_LEGEND.map((item) => {
             const pct = Math.round((vehicleMix[item.key] || 0) * 100);
@@ -911,7 +911,7 @@ const GtfsServiceProfile = ({ trafficProfile, stops, allPolylines, operators, de
 
       {/* Real-time Performance (dados históricos) */}
       <div className={cardStyle}>
-        <div className={`${labelStyle} mb-3`}>Service Performance</div>
+        <div className={`${labelStyle} mb-3`}>Desempenho do Serviço</div>
         <div className="flex flex-col gap-4">
           <div className="flex justify-between items-end">
             <span className="text-[10px] font-black text-white/50">TOTAL PARTIDAS/DIA</span>
@@ -933,7 +933,7 @@ const GtfsServiceProfile = ({ trafficProfile, stops, allPolylines, operators, de
 
       {/* Network Summary */}
       <div className={cardStyle}>
-        <div className={`${labelStyle} mb-3`}>Network Summary</div>
+        <div className={`${labelStyle} mb-3`}>Resumo da Rede</div>
         <div className="grid grid-cols-2 gap-3">
           {[
             { label: 'PARAGENS', value: totalStops.toLocaleString(), color: '#f97316' },
@@ -1243,7 +1243,7 @@ export const GtfsMapView = ({ onSimulateDistrict } = {}) => {
     <div className="flex-1 overflow-y-auto bg-[#09090b] p-8 hide-scrollbar">
       {/* Header */}
       <header className="mb-6">
-        <h1 className="text-3xl font-black tracking-tight text-white">GTFS Transit Map</h1>
+        <h1 className="text-3xl font-black tracking-tight text-white">Mapa de Trânsito GTFS</h1>
         <p className="text-muted-foreground text-sm font-medium opacity-70 mt-1">
           {data.agency} · Serviço em {data.date}
           {selectedHour !== null && (
@@ -1906,7 +1906,7 @@ export const GtfsMapView = ({ onSimulateDistrict } = {}) => {
                 <div className="flex flex-col gap-5">
                   {/* Vehicle Distribution */}
                   <div className={premiumCard}>
-                    <div className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-1 opacity-50">Vehicle Distribution</div>
+                    <div className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-1 opacity-50">Distribuição de Veículos</div>
                     <div className="flex flex-col gap-3">
                       {legendItems.map((item) => {
                         const pct = Math.round((vmix[item.key] || 0) * 100);
@@ -1933,7 +1933,7 @@ export const GtfsMapView = ({ onSimulateDistrict } = {}) => {
                     <div className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-3 opacity-50">Partidas por Hora</div>
                     <div className="flex flex-col gap-2">
                       <div className="flex justify-between items-end">
-                        <span className="text-[10px] font-black text-white/50">DEPARTURES / HOUR</span>
+                        <span className="text-[10px] font-black text-white/50">PARTIDAS / HORA</span>
                         <span className="text-sm font-black text-white">{totalDeps.toLocaleString()}/dia</span>
                       </div>
                       <div className="bg-[#0c0c0e]/50 rounded-xl p-2 border border-white/5">

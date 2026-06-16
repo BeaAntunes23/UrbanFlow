@@ -117,7 +117,7 @@ export const SystemLogsView = ({ metrics, metricHistory, config, eventLog = [] }
     <div className="flex-1 overflow-y-auto bg-[#09090b] p-8 hide-scrollbar">
       <header className="mb-8 flex items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-white mb-2">System Logs</h1>
+          <h1 className="text-3xl font-black tracking-tight text-white mb-2">Registos do Sistema</h1>
           <p className="text-sm text-muted-foreground font-medium opacity-70">
             Estado atual da simulação e registo cumulativo de eventos.
           </p>
@@ -127,7 +127,7 @@ export const SystemLogsView = ({ metrics, metricHistory, config, eventLog = [] }
           className="flex items-center gap-2 px-4 py-3 rounded-2xl border border-[#1c1c1f] bg-[#151518] text-[10px] font-black uppercase tracking-widest text-white hover:bg-[#1c1c1f] transition-all"
         >
           <Download size={14} />
-          Export Logs CSV
+          Exportar Logs CSV
         </button>
       </header>
 
@@ -139,7 +139,7 @@ export const SystemLogsView = ({ metrics, metricHistory, config, eventLog = [] }
         </div>
         <div className="bg-[#151518] border border-[#1c1c1f] rounded-3xl p-5">
           <div className="flex items-center justify-between mb-3">
-            <div className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/50">Flow</div>
+            <div className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/50">Fluxo</div>
             <Activity size={16} className="text-blue-400" />
           </div>
           <div className="text-3xl font-black text-white">{asNumber(metrics.flowRate).toFixed(1)}</div>
