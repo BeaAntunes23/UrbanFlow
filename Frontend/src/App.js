@@ -20,7 +20,7 @@ import {
   PanelRightOpen,
   Pause,
   Play,
-  Square,
+  RotateCcw,
 } from 'lucide-react';
 
 const INITIAL_CONFIG = {
@@ -349,6 +349,22 @@ function App() {
     return () => { stopResize(); };
   }, [stopResize]);
 
+  const handleRestart = React.useCallback(() => {
+    const engine = engineRef.current;
+    if (engine) {
+      engine.pause();
+      engine.initGrid();
+      engine.start();
+    }
+    setMetrics(INITIAL_METRICS);
+    setComparison(INITIAL_METRICS);
+    setMetricHistory([]);
+    prevMetricsRef.current = INITIAL_METRICS;
+    peakFlowRef.current = 0;
+    setEventLog([]);
+    setConfig((prev) => ({ ...prev, running: true }));
+  }, []);
+
   const prevRunning = React.useRef(config.running);
   React.useEffect(() => {
     if (prevRunning.current && !config.running) {
@@ -504,11 +520,11 @@ function App() {
                       Pause
                     </button>
                     <button
-                      onClick={() => { engineRef.current?.pause(); setConfig((prev) => ({ ...prev, running: false })); }}
-                      className="border border-red-500/30 bg-red-500/10 text-red-400 px-5 py-2.5 rounded-xl font-black text-xs tracking-widest hover:bg-red-500/20 transition-all flex items-center gap-2 active:scale-95 uppercase"
+                      onClick={handleRestart}
+                      className="border border-[#1c1c1f] bg-[#151518] text-white px-5 py-2.5 rounded-xl font-black text-xs tracking-widest hover:bg-[#1c1c1f] transition-all flex items-center gap-2 active:scale-95 uppercase"
                     >
-                      <Square size={14} fill="currentColor" />
-                      Stop
+                      <RotateCcw size={14} />
+                      Recomeçar
                     </button>
                   </div>
                 </div>
