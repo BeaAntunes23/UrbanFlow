@@ -3,11 +3,7 @@ import { History, Trash2, TrendingDown, TrendingUp, Minus } from "lucide-react";
 
 const HISTORICO_STORAGE_KEY = 'trafficai_historico_v1';
 
-const classificarCo2 = (valor) => {
-  if (valor <= 50)  return { label: 'Bom',       style: 'bg-emerald-500/10 text-emerald-400' };
-  if (valor <= 200) return { label: 'Aceitável',  style: 'bg-orange-500/10 text-orange-400'  };
-  return               { label: 'Elevado',     style: 'bg-red-500/10 text-red-400'        };
-};
+import { classificarCo2 } from '@/utils/co2';
 
 const formatDate = (iso) => {
   try {
@@ -149,7 +145,7 @@ export function HistoryView({ empresa }) {
                   <span><ModoTag modo={sim.modo} /></span>
                   <span className="text-xs font-semibold text-muted-foreground truncate">{sim.cenario || '—'}</span>
                   <span className="flex items-center gap-1.5">
-                    <span className={`px-2 py-0.5 rounded-lg text-[10px] font-black ${co2Class.style}`}>
+                    <span className={`px-2 py-0.5 rounded-lg text-[10px] font-black ${co2Class.bg} ${co2Class.text}`}>
                       {co2Class.label}
                     </span>
                     <span className="text-xs font-bold text-white">{(sim.co2 || 0).toFixed(1)}</span>

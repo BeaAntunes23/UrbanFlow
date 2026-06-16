@@ -30,12 +30,7 @@ const DATA_CO2 = [
   { time: '23:59', value: 420 },
 ];
 
-// Thresholds based on real vehicle emission factors (EURO 6 / EEA): kg CO2 total
-const classificarCo2 = (valor) => {
-  if (valor <= 50)  return 'Bom';
-  if (valor <= 200) return 'Aceitável';
-  return 'Elevado';
-};
+import { classificarCo2 } from '@/utils/co2';
 
 const getCo2BadgeStyle = (classificacao) => {
   if (classificacao === 'Bom') return 'bg-emerald-500/10 text-emerald-500';
@@ -102,7 +97,7 @@ const aqiLabel = (aqi) => {
 
 export const EnvironmentalView = ({ metrics, co2History }) => {
   const co2Val = metrics?.co2Emissions || 0;
-  const co2Classification = classificarCo2(co2Val);
+  const co2Classification = classificarCo2(co2Val).label;
 
   // Percentagens de emissão por tipo de veículo (baseadas em fatores EURO 6)
   const lightVeh     = metrics?.lightVehiclesCompleted || 0;

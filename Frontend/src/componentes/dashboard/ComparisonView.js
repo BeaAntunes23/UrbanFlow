@@ -5,22 +5,7 @@ import {
 } from 'recharts';
 import { Zap, Timer, Wind, ShieldAlert, TrendingUp, TrendingDown, Activity, Car, Leaf } from 'lucide-react';
 
-// CO2 classification thresholds based on real vehicle emission factors (EURO 6 / EEA)
-// Units: kg CO2 total emitted during simulation
-// Bom: fleet below ~50 kg (low traffic / short simulation)
-// Aceitável: 50–200 kg (moderate urban traffic)
-// Elevado: above 200 kg (heavy traffic, long simulation)
-const CO2_THRESHOLDS = [
-  { label: 'Bom',       max: 50,       color: '#10b981', bg: 'bg-emerald-500/10', text: 'text-emerald-400' },
-  { label: 'Aceitável', max: 200,      color: '#f97316', bg: 'bg-orange-500/10',  text: 'text-orange-400' },
-  { label: 'Elevado',   max: Infinity, color: '#ef4444', bg: 'bg-red-500/10',     text: 'text-red-400'    },
-];
-
-const classificarCo2 = (valor) => {
-  if (valor <= 50)  return CO2_THRESHOLDS[0];
-  if (valor <= 200) return CO2_THRESHOLDS[1];
-  return CO2_THRESHOLDS[2];
-};
+import { CO2_THRESHOLDS, classificarCo2 } from '@/utils/co2';
 
 const ComparisonCard = ({ label, aiValue, tradValue, unit, icon: Icon, lowerIsBetter = true }) => {
   const aiNum = Number(aiValue) || 0;
