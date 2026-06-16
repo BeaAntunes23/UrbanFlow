@@ -21,7 +21,7 @@ const ComparisonCard = ({ label, aiValue, tradValue, unit, icon: Icon, lowerIsBe
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className={`rounded-xl p-3 border ${aiWins ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-[#0f0f12] border-[#1c1c1f]'}`}>
-          <div className="text-[9px] font-bold text-emerald-400 uppercase tracking-widest mb-1">AI</div>
+          <div className="text-[9px] font-bold text-emerald-400 uppercase tracking-widest mb-1">IA</div>
           <div className="text-2xl font-black text-white tracking-tight">{aiNum.toFixed(1)}<span className="text-xs text-muted-foreground ml-1">{unit}</span></div>
         </div>
         <div className={`rounded-xl p-3 border ${!aiWins ? 'bg-blue-500/5 border-blue-500/20' : 'bg-[#0f0f12] border-[#1c1c1f]'}`}>
@@ -38,7 +38,7 @@ const ComparisonCard = ({ label, aiValue, tradValue, unit, icon: Icon, lowerIsBe
               <TrendingUp size={12} className="text-red-400" />
             )}
             <span className={`text-[10px] font-bold ${(lowerIsBetter ? diff < 0 : diff > 0) ? 'text-emerald-400' : 'text-red-400'}`}>
-              {Math.abs(diff).toFixed(1)}% {(lowerIsBetter ? diff < 0 : diff > 0) ? 'melhor' : 'pior'} com AI
+              {Math.abs(diff).toFixed(1)}% {(lowerIsBetter ? diff < 0 : diff > 0) ? 'melhor' : 'pior'} com IA
             </span>
           </>
         )}
@@ -222,7 +222,7 @@ export const ComparisonView = ({ metrics, comparison, config, metricHistory }) =
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-emerald-500" />
-              <span className="text-white font-bold">Motor AI</span>
+              <span className="text-white font-bold">Motor IA</span>
             </div>
             <p className="text-muted-foreground text-xs leading-relaxed">
               Ajusta semáforos dinamicamente com base em filas e veículos de emergência.

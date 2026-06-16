@@ -43,7 +43,7 @@ const ErrorPage = ({ code = "404", message = "Página não encontrada", descript
 
         <div className="mt-16 flex items-center gap-2 text-xs text-muted-foreground uppercase tracking-widest opacity-50">
           <div className="w-8 h-[1px] bg-border" />
-          UrbanFlow AI • Traffic Systems
+          UrbanFlow AI • Sistemas de Tráfego
           <div className="w-8 h-[1px] bg-border" />
         </div>
       </div>
