@@ -132,6 +132,7 @@ function App() {
   const dragRef = React.useRef(null);
   const configRef = React.useRef(config);
   const prevMetricsRef = React.useRef(INITIAL_METRICS);
+  const tickLastTimeRef = React.useRef(null);
   const peakFlowRef = React.useRef(0);
   React.useEffect(() => { configRef.current = config; }, [config]);
 
@@ -259,6 +260,22 @@ function App() {
       engine.setTrafficProfile(null);
     }
   }, [config.scenario, gtfsTrafficProfile]);
+
+  React.useEffect(() => {
+    let rafId;
+    const loop = (time) => {
+      const engine = engineRef.current;
+      if (engine) {
+        const prev = tickLastTimeRef.current ?? time;
+        const dt = Math.min((time - prev) / 1000, 0.1);
+        engine.tick(dt);
+      }
+      tickLastTimeRef.current = time;
+      rafId = requestAnimationFrame(loop);
+    };
+    rafId = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
 
   React.useEffect(() => {
     const timer = window.setInterval(() => {

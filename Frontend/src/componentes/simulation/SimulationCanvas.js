@@ -522,14 +522,7 @@ export const SimulationCanvas = ({ engineRef }) => {
     observer.observe(container);
 
     const gameLoop = (time) => {
-      const dt = Math.min((time - lastTimeRef.current) / 1000, 0.1);
       lastTimeRef.current = time;
-
-      const engine = engineRef.current;
-      if (engine) {
-        engine.tick(dt);
-      }
-
       const rect = container.getBoundingClientRect();
       draw(ctx, rect.width, rect.height);
       animFrameRef.current = requestAnimationFrame(gameLoop);
