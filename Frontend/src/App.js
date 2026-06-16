@@ -524,10 +524,14 @@ function App() {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => { engineRef.current?.start(); setConfig((prev) => ({ ...prev, running: true })); }}
-                      className="bg-primary text-white px-5 py-2.5 rounded-xl font-black text-xs tracking-widest hover:opacity-90 transition-all shadow-lg shadow-primary/20 flex items-center gap-2 active:scale-95 uppercase"
+                      className={`px-5 py-2.5 rounded-xl font-black text-xs tracking-widest transition-all flex items-center gap-2 active:scale-95 uppercase ${
+                        config.running
+                          ? 'bg-orange-500/20 border border-orange-500 text-orange-300 shadow-lg shadow-orange-500/20'
+                          : 'bg-primary text-white shadow-lg shadow-primary/20 hover:opacity-90'
+                      }`}
                     >
-                      <Play size={14} fill="white" />
-                      Iniciar
+                      <Play size={14} fill={config.running ? 'currentColor' : 'white'} />
+                      {config.running ? 'Em Execução' : 'Iniciar'}
                     </button>
                     <button
                       onClick={() => engineRef.current?.pause()}
