@@ -28,7 +28,7 @@ const INITIAL_CONFIG = {
   mode: "ai",
   speed: 1,
   gridSize: 4,
-  running: false,
+  running: true,
 };
 
 const INITIAL_METRICS = {
