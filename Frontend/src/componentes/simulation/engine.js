@@ -12,7 +12,7 @@ const VEHICLE_CONFIGS = {
 };
 
 const VEHICLE_COLORS = {
-  car: ['#60a5fa', '#818cf8', '#a78bfa', '#67e8f9', '#86efac', '#c084fc'],
+  car: ['#60a5fa'],
   bus: ['#fbbf24', '#f59e0b', '#d97706'],
   ambulance: ['#ef4444']
 };
