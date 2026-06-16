@@ -28,7 +28,7 @@ const INITIAL_CONFIG = {
   mode: "ai",
   speed: 1,
   gridSize: 4,
-  running: true,
+  running: false,
 };
 
 const INITIAL_METRICS = {
@@ -534,7 +534,7 @@ function App() {
                       {config.running ? 'Em Execução' : 'Iniciar'}
                     </button>
                     <button
-                      onClick={() => engineRef.current?.pause()}
+                      onClick={() => { engineRef.current?.pause(); setConfig((prev) => ({ ...prev, running: false })); }}
                       className="border border-[#1c1c1f] bg-[#151518] text-white px-5 py-2.5 rounded-xl font-black text-xs tracking-widest hover:bg-[#1c1c1f] transition-all flex items-center gap-2 active:scale-95 uppercase"
                     >
                       <Pause size={14} />
